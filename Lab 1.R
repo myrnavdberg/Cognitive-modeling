@@ -64,9 +64,6 @@ while (count < 14){
   print(length(D[,1]))
   subpartDialSE[count,2] <- subpartDialsd[count,2]/sqrt(length(D[,1]))
   subpartSteerSE[count,2] <- subpartSteersd[count,2]/sqrt(length(S[,1]))
-  print(count)
-  print(subpartDialSE[count,2])
-  print(countvecDial[count])
   count <- count + 1
 }
 
@@ -120,4 +117,153 @@ plot <- plot + geom_line(data = necessaryDriftData, aes(x = trialTime, y = posX,
 plot
 
 #B
+df <- data.frame(trial = integer(1220),time = double(1220), drift = double(1220))
+createDf <- function(df, sd){
+  row <- 1
+  for (i in 1:20){
+    j <- 0
+    drift <- 0
+    oldDrift <- 0
+    while (j <= 60){
+      df$trial[row] <- i
+      df$time[row] <- (50*j)
+      drift <- rnorm(1,0,sd)
+      df$drift[row] <- oldDrift + drift
+      oldDrift <- oldDrift + drift
+      j <- j + 1
+      row <- row + 1
+    }
+  }
+  return(df)
+}
+df <- createDf(df, 0.13)
+
+plot <- ggplot(data = df)
+plot <- plot + geom_line(data = df, aes(x = time, y = drift, colour = as.factor(trial), group = as.factor(trial)))
+plot
+
+#C
+hist(df$drift)
+hist(necessaryDriftData$posX)
+plot <- ggplot(data = df) + xlab('drift') + ylab('frequency') + ggtitle('The drift for modelled data (red) and human data (blue)')
+plot <- plot + theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(),
+                     panel.grid.minor = element_blank(),
+                     panel.border = element_blank(),
+                     panel.background = element_blank())
+plot <- plot + geom_histogram(mapping = aes(df$drift), data = df, color = 'red', fill="red", alpha = 0.5)
+plot <- plot + geom_histogram(mapping = aes(necessaryDriftData$posX), data = necessaryDriftData, color = 'blue', fill="blue", alpha=0.5)
+plot
+
+#D
+#for human data: 
+statistics(necessaryDriftData$posX) 
+#the mean = -0.03249377
+#the sd = 0.35961255
+#the SE = 0.01036817
+
+#for modelled data:
+statistics(df$drift) 
+#The mean = 0.10366627
+#the sd = 0.7505585233
+#the SE = 0.0214884280
+
+#E
+done <- FALSE
+sd <- 0.13
+stepsize <- 0.01 #arbitrary stepsize
+humansd <- sd(necessaryDriftData$posX)
+previoussd <- 0
+count <- 1
+alt.df <- data.frame(trial = integer(1220),time = double(1220), drift = double(1220))
+while (!done){
+  newdf <- createDf(alt.df, sd)
+  modelsd <- sd(newdf$drift)
+  if (modelsd > humansd){
+    if (count > 1 && previoussd < humansd){
+      finaldf <- newdf
+      done <- TRUE
+      next
+    }
+    sd <- sd - stepsize
+    previoussd <- modelsd
+    count <- count + 1
+  }else if (modelsd < humansd){
+    if (count > 1 && previoussd > humansd){
+      finaldf <- newdf
+      done <- TRUE
+      next
+    }
+    sd <- sd + stepsize
+    previoussd <- modelsd
+    count <- count + 1
+  }else if (modelsd == humansd){
+    finaldf <- newdf
+    done = TRUE
+  }
+}
+
+#(I) The final sd to which we want to set our model
+# sd = 0.05
+
+#(II) A plot	of	how	lane	position	changes	over	time	for	the	individual	simulated	trials
+plot <- ggplot(data = finaldf) + ggtitle('modelled drift over time per trial')
+plot <- plot + geom_line(data = finaldf, aes(x = time, y = drift, colour = as.factor(trial), group = as.factor(trial)))
+plot
+
+#(III) A plot	of the	resulting	distribution (against human data)
+plot <- ggplot(data = finaldf) + xlab('drift') + ylab('frequency') + ggtitle('The drift for modelled data (red) and human data (blue)')
+plot <- plot + theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(),
+                     panel.grid.minor = element_blank(),
+                     panel.border = element_blank(),
+                     panel.background = element_blank())
+plot <- plot + geom_histogram(mapping = aes(finaldf$drift), data = finaldf, color = 'red', fill="red", alpha = 0.5)
+plot <- plot + geom_histogram(mapping = aes(necessaryDriftData$posX), data = necessaryDriftData, color = 'blue', fill="blue", alpha=0.5)
+plot
+
+#(IV) the	SD (and more)	of	this	resulting	distribution.
+statistics(finaldf$drift) 
+#The mean = 0.0221523601
+#the sd = 0.28830222238
+#the SE = 0.008254068616
+
+
+#########################################
+###############Question 3################
+#########################################
+dataQ3 = read.csv('keyPressDataWithLaneDeviation.csv', header = TRUE, sep = ',')
+usableDataQ3 <- data[data$typingErrorMadeOnTrial == 0,]
+usableDataQ3 <- usableDataQ3[usableDataQ3$partOfExperiment == 'singleDialing2',]
+for (i in 1:length(usableDataQ3[,1])){
+  if (usableDataQ3$phoneNrLengthAfterKeyPress[i] != 0){
+    usableDataQ3$iki[i] <- usableDataQ3$timeRelativeToTrialStart[i] - usableDataQ3$timeRelativeToTrialStart[i-1]
+  }else{
+    usableDataQ3$iki[i] <- 0
+  }
+}
+
+participantMean <- c()
+for (participant in 1:max(usableDataQ3$pp)){
+  participantMean[participant] <- mean(usableDataQ3$iki[usableDataQ3$pp == participant])
+}
+#mean per participant:
+#172.1410 319.0571 291.8507 289.0746 282.5526 272.1231 220.8000 253.9853 318.1316 233.6970
+#259.7949 205.7576
+#without keypresserror
+#172.1410 291.4151 279.6462 276.4462 261.0923 272.1231 220.8000 253.9853 291.1346 233.6970
+#250.6154 216.4906
+
+
+#grand mean (mean of the means of participants)
+mean(participantMean)
+#259.9138 ms (in the model this is rounded to 260)
+#without keypresserror
+mean(participantMean)
+#251.6322 ms (in the model this is rounded to 252)
+#we chose the grand mean to prevent overfitting and because we want to model the behaviour of an 
+# average individual rather than using the specific value per participant to (later) model some other 
+# specific behaviour. 
+
+#########################################
+###############Question 4################
+#########################################
 
