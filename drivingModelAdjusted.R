@@ -7,7 +7,9 @@
 ## for questions, please contact Christian P. Janssen: c.p.janssen@uu.nl
 ## www.cpjanssen.nl
 
+setwd('C:/Users/Myrna/Documents/Universiteit Utrecht/Cognitive modeling/Lab 1')
 
+library(ggplot2)
 require(gtools)
 require(dplyr)
 require(rPref)
@@ -210,7 +212,7 @@ runAllSimpleStrategies <- function(nrSimulations,phoneNumber)
       print(strategy)
       positions <- 1:length(strategy)
       strategy <- strategy * positions
-      print(strategy)
+      #print(strategy)
       ### remove last digit, as driver does not interleave after typing the last digit (they are done with the trial :-)  )
       strategy <- strategy[strategy != phoneStringLength]
       print(strategy)
@@ -462,70 +464,18 @@ updateSteering <- function(velocity,nrUpdates,startPosLane)
 
 
 
+
+
 ##########################################################
-##################### Question 5 #########################
+######### Engeneering runComplexFunction #################
 ##########################################################
-
-
-#A (title plot, axes, legend still need to be done)
-# dataFrameModel <- runAllSimpleStrategies(1,"07854325698")
-# plot <- ggplot(dataFrameModel) + ggtitle('something')
-# plot <- plot + geom_point(data = dataFrameModel, mapping = aes(x = TrialTime/1000, y = dev), colour = 'grey')
-# plot <- plot + geom_smooth(data = dataFrameModel[order(dataFrameModel[dataFrameModel$.level==1,]),], mapping = aes(x = TrialTime/1000, y = dev), formula =  y ~ x, colour = 'gray30', size =3)
-# plot <- plot + geom_point(data = dataFrameModel[dataFrameModel$.level==1,], mapping = aes(x = TrialTime/1000, y = dev))
-# plot <- plot + theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(),
-#                      panel.grid.minor = element_blank(),
-#                      panel.border = element_blank(),
-#                      panel.background = element_blank())
-# plot
-# plot <- plot + geom_line(data = subpartSteer, mapping = aes(DialingTime/1000, LateralDeviation), col = 'red')
-# plot <- plot + geom_line(data = subpartDial, mapping = aes(DialingTime/1000, LateralDeviation), col = 'blue')
-# plot <- plot + geom_point(data = subpartSteer, mapping = aes(DialingTime/1000, LateralDeviation), col = 'red', shape = 5)
-# plot <- plot + geom_point(data = subpartDial, mapping = aes(DialingTime/1000, LateralDeviation), col = 'blue')
-# plot <- plot + geom_errorbar(data = subpartSteer, mapping = aes(DialingTime/1000,ymin=LateralDeviation - SE, ymax = LateralDeviation + SE), colour = 'red')
-# plot <- plot + geom_errorbar(data = subpartDial, mapping = aes(DialingTime/1000, ymin=LateralDeviation - SE, ymax = LateralDeviation + SE), colour = 'blue')
-# plot
-
-#I have no idea what they mean by: make	sure	to	highlight	the	strategies	that	ONLY	interleave	between	
-#the	fifth	and	sixth	digit
-
-#means of each keypress? grand mean?
-#dataFrameModel <- runAllSimpleStrategies(1,"07854325698")
-# subpartDial
-# subpartSteer
-
-
-
-#B
-#resonning question, skipped for now
-
-#c
-#interleaving?
-
-
-######################################################################
-###################### Question 6 ###################################
-#####################################################################
-#drift:
-#We changed 2 drift values. The sd and the noise
-#new: 0.05 vs. old: 0.13 (sd)
-#new: 0.038 vs. old: 0.1 (noise)
-
-#IKI:
-#old: singleTaskKeyPressTimes <- c(400,400,400,400,400,400,400,400,400,400,400)   #digit times needed per keypress at that specific position (note: normalized for chunk retrieval time at digits 1 and 6 --- a retrieval cost would come on top of this)
-#new: singleTaskKeyPressTimes <- c(260,260,260,260,260,260,260,260,260,260,260,260)   #digit times needed per keypress at that specific position (note: normalized for chunk retrieval time at digits 1 and 6 --- a retrieval cost would come on top of this)
-
-#simulations
-#low: 10 simulations per run 
-#high: 50 simulation per run
-
 
 drift.sd <- c(0.13, 0.05)
 drift.noise <- c(0.1,0.038)
 iki <- c(400, 260)
-nrsimulation <- c(10,50)
+nrSimulation <- c(10,50)
 
-runAllComplexStrategies <- function(drift.sd=1, drift.noise=1, iki=1, nrSimulations=1, phoneNumber="07854325698"){
+runAllComplexStrategies <- function(nrSimulations=1, phoneNumber="07854325698"){
   
     
     normalPhoneStructure <- c(1,6)  ### indicate at what digit positions a chunk needs to be retrieved (1st and 6th digit)
@@ -543,23 +493,15 @@ runAllComplexStrategies <- function(drift.sd=1, drift.noise=1, iki=1, nrSimulati
     devVec <- c()
     timesMean <- c()
     devMean <- c()
+    strategyVec <- c()
 
     
     
       for (nrOfInterleavesVAR in 1:(phoneStringLength-1)){
         listOfCombn <- combn(10,nrOfInterleavesVAR)
-        print(listOfCombn)
+        #print(listOfCombn)
         for (i in 1:length(listOfCombn[1,])){
           strategy <- listOfCombn[,i]
-          
-          if (5 %in% strategy){
-            Highlight <- 1
-          }else{
-            Highlight <- 0
-          }
-          
-          
-          
           
           locSteerTimeOptions <- steeringTimeOptions
           if (length(strategy) == 0)
@@ -588,9 +530,18 @@ runAllComplexStrategies <- function(drift.sd=1, drift.noise=1, iki=1, nrSimulati
               strats <- c(strats,toString(rep(strategy,nrow(locTab))))
               steers <- c(steers,rep(steerTimes,nrow(locTab)))
               
+              #print('strategy')
+              #print(strategy)
+              if (5 %in% strategy){
+                #print(strategy)
+                Highlight <- 1
+              }else{
+                Highlight <- 0
+              }
+              
               timesVec <- c(timesVec,mean(locTab$times))
               devVec <- c(devVec, mean(abs(locTab$drifts)))
-              HighlightVec <- c(HighlightVec,Highlight)
+              
               
 
 
@@ -598,73 +549,37 @@ runAllComplexStrategies <- function(drift.sd=1, drift.noise=1, iki=1, nrSimulati
            
               
             }
+           
           }#end of for steerTimes	
+          HighlightVec <- c(HighlightVec,Highlight)
           timesMean <- c(timesMean,mean(timesVec))
-          devMean <- c(devMean, mean(devVec))
-          
+          devMean <- c(devMean, mean(abs(devVec)))
+          strategyVec <- c(strategyVec,toString(strategy))
           
         }##end of for nr strategies
       }
     
     ### now make a new table based on all the data that was collected
     tableAllSamples <- data.frame(keypresses,times,deviations,strats,steers)
-    tableStrategies <- data.frame(timesVec,devVec, HighlightVec)
+    print(strategy)
+    tableStrategies <- data.frame(timesVec,devVec, HighlightVec, strategyVec)
+    tableStrategies
     
     
+    #sfksje
     
-    
-    
-    
-    
-    
-    #### In the table we collected data for multiple simulations per strategy. Now we want to know the average performane of each strategy.
-    #### These aspects are calculated using the "aggregate" function
-    
-    
-    # ## calculate average deviation at each keypress (keypresses), for each unique strategy variation (strats and steers)
-    # agrResults <- with(tableAllSamples,aggregate(deviations,list(keypresses=keypresses),mean))
-    # agrResults$dev <- agrResults$x
-    # 
-    # 
-    # ### also calculate the time interval
-    # agrResults$times <- with(tableAllSamples,aggregate(times,list(keypresses=keypresses),mean))$x
-    # 
-    # 
-    # ###now calculate mean drift across the trial
-    # agrResultsMeanDrift <-  with(agrResults,aggregate(dev,list(steers= steers),mean))
-    # agrResultsMeanDrift$dev <- agrResultsMeanDrift$x
-    # 
-    # ### and mean trial time
-    # agrResultsMeanDrift$TrialTime <-  with(agrResults[agrResults$keypresses ==11,],aggregate(times,list(steers= steers),mean))$x	
-    # 
-    # 
-    # #### make a plot that visualizes all the strategies: note that trial time is divided by 1000 to get the time in seconds
-    # #with(agrResultsMeanDrift,plot(TrialTime/1000,abs(dev),pch=21,bg="dark grey",col="dark grey",log="x",xlab="Dial time (s)",ylab="Average Lateral Deviation (m)"))
-    # 
-    # pareto <- low(TrialTime) * low(abs(dev)) 
-    # res <- psel(tableAllSamples, pareto, top = nrow(tableAllSamples))
-    # 
-    # ### give a summary of the data	
-    # summary(tableAllSamples$TrialTime)
-    # return(res)
     return(tableStrategies)
 }
 
-plot <- ggplot(kees) + ggtitle('something')
-plot <- plot + geom_point(data = kees, mapping = aes(x = timesVec/1000, y = devVec), colour = 'grey')
-plot <- plot + geom_point(data = kees[kees$HighlightVec==1,], mapping = aes(x = timesVec/1000, y = devVec), colour = 'red', alpha = 0.2, shape = 5)
-plot <- plot + geom_point(data = subpartSteer, mapping = aes(mean(DialingTime/1000), mean(LateralDeviation)))
-plot <- plot + geom_point(data = subpartDial, mapping = aes(mean(DialingTime/1000), mean(LateralDeviation)))
-plot <- plot + geom_errorbar(mapping = aes(DialTimeDial[1],ymin=LateralDial[1] - LateralDial[2], ymax = LateralDial[1] + LateralDial[2]))
-plot <- plot + geom_errorbar(mapping = aes(DialTimeSteer[1], ymin=LateralSteer[1] - LateralSteer[2], ymax = LateralSteer[1] + LateralSteer[2]))
-plot <- plot + geom_errorbarh(mapping = aes(y = LateralDial[1],xmin=DialTimeDial[1] - DialTimeDial[2], xmax = DialTimeDial[1] + DialTimeDial[2]))
-plot <- plot + geom_errorbarh(mapping = aes(y = LateralSteer[1], xmin=DialTimeSteer[1] - DialTimeSteer[2], xmax = DialTimeSteer[1] + DialTimeSteer[2]))
+##########################################################
+##################### Question 5 #########################
+##########################################################
 
-plot
 
+#A
 
 statistics <- function(vec){
-  m <- mean(vec)
+  m <- mean(abs(vec))
   stdev <- sd(vec)
   sterr <- stdev/(sqrt(length(vec)))
   print(list(c('mean:', m), c('sd:', stdev), c('SE:', sterr)))
@@ -677,17 +592,111 @@ DialTimeDial <- statistics(condDualDialFocus[condDualSteerFocus$phoneNrLengthAft
 DialTimeSteer <- statistics(condDualSteerFocus[condDualSteerFocus$phoneNrLengthAfterKeyPress==12,]$timeRelativeToTrialStart/1000)
 LateralDial  <- statistics(condDualDialFocus$lanePosition)
 LateralSteer <- statistics(condDualSteerFocus$lanePosition)
-# plot <- plot + geom_smooth(data = dataFrameModel[order(dataFrameModel[dataFrameModel$.level==1,]),], mapping = aes(x = TrialTime/1000, y = dev), formula =  y ~ x, colour = 'gray30', size =3)
-# plot <- plot + geom_point(data = dataFrameModel[dataFrameModel$.level==1,], mapping = aes(x = TrialTime/1000, y = dev))
-# plot <- plot + theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(),
-#                      panel.grid.minor = element_blank(),
-#                      panel.border = element_blank(),
-#                      panel.background = element_blank())
-# plot
-# plot <- plot + geom_line(data = subpartSteer, mapping = aes(DialingTime/1000, LateralDeviation), col = 'red')
-# plot <- plot + geom_line(data = subpartDial, mapping = aes(DialingTime/1000, LateralDeviation), col = 'blue')
-# plot <- plot + geom_point(data = subpartSteer, mapping = aes(DialingTime/1000, LateralDeviation), col = 'red', shape = 5)
-# plot <- plot + geom_point(data = subpartDial, mapping = aes(DialingTime/1000, LateralDeviation), col = 'blue')
-# plot <- plot + geom_errorbar(data = subpartSteer, mapping = aes(DialingTime/1000,ymin=LateralDeviation - SE, ymax = LateralDeviation + SE), colour = 'red')
-# plot <- plot + geom_errorbar(data = subpartDial, mapping = aes(DialingTime/1000, ymin=LateralDeviation - SE, ymax = LateralDeviation + SE), colour = 'blue')
-# plot
+
+minDialX <- DialTimeDial[1] - DialTimeDial[2]
+maxDialX <- DialTimeDial[1] + DialTimeDial[2]
+minSteerX <- DialTimeSteer[1] - DialTimeSteer[2]
+maxSteerX <- DialTimeSteer[1] + DialTimeSteer[2]
+minDialY <- LateralDial[1] - LateralDial[2]
+maxDialY <- LateralDial[1] + LateralDial[2]
+minSteerY <- LateralSteer[1] - LateralSteer[2]
+maxSteerY <- LateralSteer[1] + LateralSteer[2]
+
+
+Allmodels <- runAllComplexStrategies(nrSimulations = 1)
+AltTableModelsDialFocus <- Allmodels[(Allmodels$timesVec/1000 >minDialX & Allmodels$timesVec/1000 < maxDialX) & (Allmodels$devVec > minDialY & Allmodels$devVec < maxDialY),]
+AltTableModelsSteerFocus <- Allmodels[(Allmodels$timesVec/1000 >minSteerX & Allmodels$timesVec/1000 < maxSteerX) & (Allmodels$devVec > minSteerY & Allmodels$devVec < maxSteerY),]
+
+write.table(AltTableModelsDialFocus, file = 'AltTableModelsDialFocus.csv', sep = ";", col.names = TRUE, row.names = TRUE)
+write.table(AltTableModelsSteerFocus, file = 'AltTableModelsSteerFocus.csv', sep = ";", col.names = TRUE, row.names = TRUE)
+
+
+plot <- ggplot(Allmodels) + ggtitle('Model and human performances for different strategies') + xlab('Dial Time (sec)') + ylab('Mean Deviation (m)')
+plot <- plot + geom_point(data = Allmodels, mapping = aes(x = timesVec/1000, y = devVec), colour = 'grey')
+plot <- plot + geom_point(data = Allmodels[Allmodels$HighlightVec==1,], mapping = aes(x = timesVec/1000, y = devVec), colour = 'red', alpha = 0.2, shape = 5)
+plot <- plot + geom_point(mapping = aes(DialTimeDial[1], LateralDial[1]), shape = 3,)
+plot <- plot + geom_point(mapping = aes(DialTimeSteer[1], LateralSteer[1]))
+plot <- plot + geom_errorbar(mapping = aes(DialTimeDial[1],ymin=LateralDial[1] - LateralDial[2], ymax = LateralDial[1] + LateralDial[2],width = 0.33))
+plot <- plot + geom_errorbar(mapping = aes(DialTimeSteer[1], ymin=LateralSteer[1] - LateralSteer[2], ymax = LateralSteer[1] + LateralSteer[2], width = 0.33))
+plot <- plot + geom_errorbarh(mapping = aes(y = LateralDial[1],xmin=DialTimeDial[1] - DialTimeDial[2], xmax = DialTimeDial[1] + DialTimeDial[2], height = 0.02))
+plot <- plot + geom_errorbarh(mapping = aes(y = LateralSteer[1], xmin=DialTimeSteer[1] - DialTimeSteer[2], xmax = DialTimeSteer[1] + DialTimeSteer[2], height = 0.02))
+plot <- plot + theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(),
+                     panel.grid.minor = element_blank(),
+                     panel.border = element_blank(),
+                     panel.background = element_blank())
+ggsave('plotQuestion5A.png', plot, device = 'png', width = 21, height = 18, units = 'cm')
+
+plot
+
+
+#B Reasoning question
+
+#C
+
+
+
+######################################################################
+###################### Question 6 ###################################
+#####################################################################
+#drift:
+#We changed 2 drift values. The sd and the noise
+#new: 0.05 vs. old: 0.13 (sd)
+#new: 0.038 vs. old: 0.1 (noise)
+
+#IKI:
+#old: singleTaskKeyPressTimes <- c(400,400,400,400,400,400,400,400,400,400,400)   #digit times needed per keypress at that specific position (note: normalized for chunk retrieval time at digits 1 and 6 --- a retrieval cost would come on top of this)
+#new: singleTaskKeyPressTimes <- c(260,260,260,260,260,260,260,260,260,260,260,260)   #digit times needed per keypress at that specific position (note: normalized for chunk retrieval time at digits 1 and 6 --- a retrieval cost would come on top of this)
+
+#simulations
+#low: 10 simulations per run 
+#high: 50 simulation per run
+
+
+doItAll <- function(){
+  count <- 1
+  for (A in 1:2){
+    for (B in 1:2){
+      for (C in 1:2){
+        gaussDeviateSD = drift.sd[A]
+        gaussDriveNoiseSD = drift.noise[A]
+        singleTaskKeyPressTimes <- c(rep(iki[B], 11))
+        filename <- paste("TotalmodelPlot",count,".png",sep='')
+        tableModels <- runAllComplexStrategies(nrSimulations = 1)#nrSimulation[C])
+        
+        # minDialX <- DialTimeDial[1] - DialTimeDial[2]
+        # maxDialX <- DialTimeDial[1] + DialTimeDial[2]
+        # minSteerX <- DialTimeSteer[1] - DialTimeSteer[2]
+        # maxSteerX <- DialTimeSteer[1] + DialTimeSteer[2]
+        # minDialY <- LateralDial[1] - LateralDial[2]
+        # maxDialY <- LateralDial[1] + LateralDial[2]
+        # minSteerY <- LateralSteer[1] - LateralSteer[2]
+        # maxSteerY <- LateralSteer[1] + LateralSteer[2]
+        
+
+        
+        #Create the plot from the table data
+        plot <- ggplot(tableModels) + ggtitle('Model and human performances for different strategies') + xlab('Dial Time (sec)') + ylab('Mean Deviation (m)')
+        plot <- plot + geom_point(data = tableModels, mapping = aes(x = timesVec/1000, y = devVec), colour = 'grey')
+        plot <- plot + geom_point(data = tableModels[tableModels$HighlightVec==1,], mapping = aes(x = timesVec/1000, y = devVec), colour = 'red', alpha = 0.2, shape = 5)
+        plot <- plot + geom_point(mapping = aes(DialTimeDial[1], LateralDial[1]), shape = 3,)
+        plot <- plot + geom_point(mapping = aes(DialTimeSteer[1], LateralSteer[1]))
+        plot <- plot + geom_errorbar(mapping = aes(DialTimeDial[1],ymin=LateralDial[1] - LateralDial[2], ymax = LateralDial[1] + LateralDial[2], width = 0.33))
+        plot <- plot + geom_errorbar(mapping = aes(DialTimeSteer[1], ymin=LateralSteer[1] - LateralSteer[2], ymax = LateralSteer[1] + LateralSteer[2], width = 0.33))
+        plot <- plot + geom_errorbarh(mapping = aes(y = LateralDial[1],xmin=DialTimeDial[1] - DialTimeDial[2], xmax = DialTimeDial[1] + DialTimeDial[2], height = 0.02))
+        plot <- plot + geom_errorbarh(mapping = aes(y = LateralSteer[1], xmin=DialTimeSteer[1] - DialTimeSteer[2], xmax = DialTimeSteer[1] + DialTimeSteer[2], height = 0.02))
+        plot <- plot + theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(),
+                             panel.grid.minor = element_blank(),
+                             panel.border = element_blank(),
+                             panel.background = element_blank())
+        ggsave(filename, plot, device = 'png', width = 21, height = 18, units = 'cm')
+        plot
+        
+        count <- count+1
+        
+        
+        
+      }
+    }
+  }
+}
+
