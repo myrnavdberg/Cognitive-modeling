@@ -13,6 +13,7 @@ require(dplyr)
 require(rPref)
 require(igraph)
 require(ggplot)
+source('Lab 1.R')
 
 
 
@@ -196,6 +197,7 @@ runAllSimpleStrategies <- function(nrSimulations,phoneNumber)
   strats <- c()
   steers <- c()	
   
+  if (simpleSetOfStrategyVariations){
   ### iterate through all strategies
   ## in this simple model we assume that a participant uses a consistent strategy throughout the trial. That is, they only type each time 1 digit, or type 2 digits at a time, or type 3 digits at a time (i.e., all possible ways of 1:phoneStringLength: 1, 2,3,4, ...11)
   for (nrDigitsPerTime in 1: phoneStringLength)
@@ -205,17 +207,20 @@ runAllSimpleStrategies <- function(nrSimulations,phoneNumber)
     if (nrDigitsPerTime != 11)
     {
       strategy <- rep(nrDigitsPerTime ,floor(phoneStringLength/nrDigitsPerTime))  ### stores at which positions the number is interleaved
+      print(strategy)
       positions <- 1:length(strategy)
       strategy <- strategy * positions
-      
+      print(strategy)
       ### remove last digit, as driver does not interleave after typing the last digit (they are done with the trial :-)  )
       strategy <- strategy[strategy != phoneStringLength]
-    }
+      print(strategy)
+      }
     else
     {
       strategy <- c()	
       
     }
+  }
     
     
     locSteerTimeOptions <- steeringTimeOptions
@@ -250,22 +255,22 @@ runAllSimpleStrategies <- function(nrSimulations,phoneNumber)
     }#end of for steerTimes	
     
   }##end of for nr strategies
-  
+}
   
   ### now make a new table based on all the data that was collected
   tableAllSamples <- data.frame(keypresses,times,deviations,strats,steers)
-  newtableAllSamples <- tableAllSamples[tableAllSamples$keypresses==5 | tableAllSamples$keypresses == 6,]
-  
-  tableAllSamples.5 <- tableAllSamples[tableAllSamples$keypresses==5,]
-  tableAllSamples.6 <- tableAllSamples[tableAllSamples$keypresses==6,]
-  
-  tableAllSamples.6min5 <- tableAllSamples.6
-  tableAllSamples.6min5$times <- tableAllSamples.6$times - tableAllSamples.5$times
-  tableAllSamples.6min5$deviations <- tableAllSamples.6$deviations - tableAllSamples.5$deviations
+  # newtableAllSamples <- tableAllSamples[tableAllSamples$keypresses==5 | tableAllSamples$keypresses == 6,]
+  # 
+  # tableAllSamples.5 <- tableAllSamples[tableAllSamples$keypresses==5,]
+  # tableAllSamples.6 <- tableAllSamples[tableAllSamples$keypresses==6,]
+  # 
+  # tableAllSamples.6min5 <- tableAllSamples.6
+  # tableAllSamples.6min5$times <- tableAllSamples.6$times - tableAllSamples.5$times
+  # tableAllSamples.6min5$deviations <- tableAllSamples.6$deviations - tableAllSamples.5$deviations
   
   
   #print(tableAllSamples)
-  print(tableAllSamples.6min5)
+  #print(tableAllSamples.6min5)
   
   
   #### In the table we collected data for multiple simulations per strategy. Now we want to know the average performane of each strategy.
@@ -463,31 +468,31 @@ updateSteering <- function(velocity,nrUpdates,startPosLane)
 
 
 #A (title plot, axes, legend still need to be done)
-dataFrameModel <- runAllSimpleStrategies(1,"07854325698")
-plot <- ggplot(dataFrameModel) + ggtitle('something')
-plot <- plot + geom_point(data = dataFrameModel, mapping = aes(x = TrialTime/1000, y = dev), colour = 'grey')
-plot <- plot + geom_smooth(data = dataFrameModel[order(dataFrameModel[dataFrameModel$.level==1,]),], mapping = aes(x = TrialTime/1000, y = dev), formula =  y ~ x, colour = 'gray30', size =3)
-plot <- plot + geom_point(data = dataFrameModel[dataFrameModel$.level==1,], mapping = aes(x = TrialTime/1000, y = dev))
-plot <- plot + theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(),
-                     panel.grid.minor = element_blank(),
-                     panel.border = element_blank(),
-                     panel.background = element_blank())
-plot
-plot <- plot + geom_line(data = subpartSteer, mapping = aes(DialingTime/1000, LateralDeviation), col = 'red')
-plot <- plot + geom_line(data = subpartDial, mapping = aes(DialingTime/1000, LateralDeviation), col = 'blue')
-plot <- plot + geom_point(data = subpartSteer, mapping = aes(DialingTime/1000, LateralDeviation), col = 'red', shape = 5)
-plot <- plot + geom_point(data = subpartDial, mapping = aes(DialingTime/1000, LateralDeviation), col = 'blue')
-plot <- plot + geom_errorbar(data = subpartSteer, mapping = aes(DialingTime/1000,ymin=LateralDeviation - SE, ymax = LateralDeviation + SE), colour = 'red')
-plot <- plot + geom_errorbar(data = subpartDial, mapping = aes(DialingTime/1000, ymin=LateralDeviation - SE, ymax = LateralDeviation + SE), colour = 'blue')
-plot
+# dataFrameModel <- runAllSimpleStrategies(1,"07854325698")
+# plot <- ggplot(dataFrameModel) + ggtitle('something')
+# plot <- plot + geom_point(data = dataFrameModel, mapping = aes(x = TrialTime/1000, y = dev), colour = 'grey')
+# plot <- plot + geom_smooth(data = dataFrameModel[order(dataFrameModel[dataFrameModel$.level==1,]),], mapping = aes(x = TrialTime/1000, y = dev), formula =  y ~ x, colour = 'gray30', size =3)
+# plot <- plot + geom_point(data = dataFrameModel[dataFrameModel$.level==1,], mapping = aes(x = TrialTime/1000, y = dev))
+# plot <- plot + theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(),
+#                      panel.grid.minor = element_blank(),
+#                      panel.border = element_blank(),
+#                      panel.background = element_blank())
+# plot
+# plot <- plot + geom_line(data = subpartSteer, mapping = aes(DialingTime/1000, LateralDeviation), col = 'red')
+# plot <- plot + geom_line(data = subpartDial, mapping = aes(DialingTime/1000, LateralDeviation), col = 'blue')
+# plot <- plot + geom_point(data = subpartSteer, mapping = aes(DialingTime/1000, LateralDeviation), col = 'red', shape = 5)
+# plot <- plot + geom_point(data = subpartDial, mapping = aes(DialingTime/1000, LateralDeviation), col = 'blue')
+# plot <- plot + geom_errorbar(data = subpartSteer, mapping = aes(DialingTime/1000,ymin=LateralDeviation - SE, ymax = LateralDeviation + SE), colour = 'red')
+# plot <- plot + geom_errorbar(data = subpartDial, mapping = aes(DialingTime/1000, ymin=LateralDeviation - SE, ymax = LateralDeviation + SE), colour = 'blue')
+# plot
 
 #I have no idea what they mean by: make	sure	to	highlight	the	strategies	that	ONLY	interleave	between	
 #the	fifth	and	sixth	digit
 
 #means of each keypress? grand mean?
-dataFrameModel <- runAllSimpleStrategies(1,"07854325698")
-subpartDial
-subpartSteer
+#dataFrameModel <- runAllSimpleStrategies(1,"07854325698")
+# subpartDial
+# subpartSteer
 
 
 
@@ -519,9 +524,9 @@ drift.sd <- c(0.13, 0.05)
 drift.noise <- c(0.1,0.038)
 iki <- c(400, 260)
 nrsimulation <- c(10,50)
-runAllComplexStrategies <- function(drift.sd, drift.noise, iki, nrsimulations, phoneNumber){
+
+runAllComplexStrategies <- function(drift.sd=1, drift.noise=1, iki=1, nrSimulations=1, phoneNumber="07854325698"){
   
-    
     
     normalPhoneStructure <- c(1,6)  ### indicate at what digit positions a chunk needs to be retrieved (1st and 6th digit)
     phoneStringLength <- 11   ### how many digits does the number have?
@@ -533,108 +538,156 @@ runAllComplexStrategies <- function(drift.sd, drift.noise, iki, nrsimulations, p
     deviations <- c()
     strats <- c()
     steers <- c()	
+    HighlightVec <- c()
+    timesVec <- c()
+    devVec <- c()
+    timesMean <- c()
+    devMean <- c()
+
     
-    ### iterate through all strategies
-    ## in this simple model we assume that a participant uses a consistent strategy throughout the trial. That is, they only type each time 1 digit, or type 2 digits at a time, or type 3 digits at a time (i.e., all possible ways of 1:phoneStringLength: 1, 2,3,4, ...11)
-    for (nrDigitsPerTime in 1: phoneStringLength)
-    {
-      ## quick way of calculating positions to interleave: repeat strategy & multiply with position in vector (e.g., 333*123 = 369 this means: you interleave BEFORE every 3rd digit (333), and there are 3 positions to interleave (1st, 2nd, 3rd, or 123). Therefore you interleave BEFORE digits 3 (3*1), 6 (3*2), and 9 (3*3))
-      
-      if (nrDigitsPerTime != 11)
-      {
-        strategy <- rep(nrDigitsPerTime ,floor(phoneStringLength/nrDigitsPerTime))  ### stores at which positions the number is interleaved
-        positions <- 1:length(strategy)
-        strategy <- strategy * positions
-        
-        ### remove last digit, as driver does not interleave after typing the last digit (they are done with the trial :-)  )
-        strategy <- strategy[strategy != phoneStringLength]
-      }
-      else
-      {
-        strategy <- c()	
-        
-      }
-      
-      
-      locSteerTimeOptions <- steeringTimeOptions
-      if (length(strategy) == 0)
-      {
-        locSteerTimeOptions <- c(0)
-      }
-      
-      
-      
-      ### now run a trial (runOneTrial) for all combinations of how frequently you update the steering when you are steering (locSteerTimeOptions) and for the nuber of simulations that you want to run for each strategy (nrSimulations)
-      for (steerTimes in locSteerTimeOptions)
-      {
-        for (i in 1:nrSimulations)
-        {
-          
-          ### run the simulation and store the output in a table
-          locTab <- runOneTrial(strategy, steerTimes,normalPhoneStructure,phoneStringLength,phoneNumber)
-          
-          
-          ##only look at rows where there is a keypress
-          locTab <- locTab[locTab$events == "keypress",]
-          
-          ### add the relevant data points to variables that are stored in a final table
-          keypresses <- c(keypresses,1:nrow(locTab))
-          times <- c(times,locTab$times)
-          deviations <- c(deviations,locTab$drifts)
-          strats <- c(strats,rep(nrDigitsPerTime,nrow(locTab)))
-          steers <- c(steers,rep(steerTimes,nrow(locTab)))
-          
-        }
-      }#end of for steerTimes	
-      
-    }##end of for nr strategies
     
+      for (nrOfInterleavesVAR in 1:(phoneStringLength-1)){
+        listOfCombn <- combn(10,nrOfInterleavesVAR)
+        print(listOfCombn)
+        for (i in 1:length(listOfCombn[1,])){
+          strategy <- listOfCombn[,i]
+          
+          if (5 %in% strategy){
+            Highlight <- 1
+          }else{
+            Highlight <- 0
+          }
+          
+          
+          
+          
+          locSteerTimeOptions <- steeringTimeOptions
+          if (length(strategy) == 0)
+          {
+            locSteerTimeOptions <- c(0)
+          }
+          
+          
+          
+          ### now run a trial (runOneTrial) for all combinations of how frequently you update the steering when you are steering (locSteerTimeOptions) and for the nuber of simulations that you want to run for each strategy (nrSimulations)
+          for (steerTimes in locSteerTimeOptions)
+          {
+            for (i in 1:nrSimulations)
+            {
+              
+              ### run the simulation and store the output in a table
+              locTab <- runOneTrial(strategy, steerTimes,normalPhoneStructure,phoneStringLength,phoneNumber)
+              
+              ##only look at rows where there is a keypress
+              locTab <- locTab[locTab$events == "keypress",]
+              
+              ### add the relevant data points to variables that are stored in a final table
+              keypresses <- c(keypresses,1:nrow(locTab))
+              times <- c(times,locTab$times)
+              deviations <- c(deviations,locTab$drifts)
+              strats <- c(strats,toString(rep(strategy,nrow(locTab))))
+              steers <- c(steers,rep(steerTimes,nrow(locTab)))
+              
+              timesVec <- c(timesVec,mean(locTab$times))
+              devVec <- c(devVec, mean(abs(locTab$drifts)))
+              HighlightVec <- c(HighlightVec,Highlight)
+              
+
+
+              
+           
+              
+            }
+          }#end of for steerTimes	
+          timesMean <- c(timesMean,mean(timesVec))
+          devMean <- c(devMean, mean(devVec))
+          
+          
+        }##end of for nr strategies
+      }
     
     ### now make a new table based on all the data that was collected
     tableAllSamples <- data.frame(keypresses,times,deviations,strats,steers)
-    newtableAllSamples <- tableAllSamples[tableAllSamples$keypresses==5 | tableAllSamples$keypresses == 6,]
-    
-    tableAllSamples.5 <- tableAllSamples[tableAllSamples$keypresses==5,]
-    tableAllSamples.6 <- tableAllSamples[tableAllSamples$keypresses==6,]
-    
-    tableAllSamples.6min5 <- tableAllSamples.6
-    tableAllSamples.6min5$times <- tableAllSamples.6$times - tableAllSamples.5$times
-    tableAllSamples.6min5$deviations <- tableAllSamples.6$deviations - tableAllSamples.5$deviations
+    tableStrategies <- data.frame(timesVec,devVec, HighlightVec)
     
     
-    #print(tableAllSamples)
-    print(tableAllSamples.6min5)
+    
+    
+    
+    
     
     
     #### In the table we collected data for multiple simulations per strategy. Now we want to know the average performane of each strategy.
     #### These aspects are calculated using the "aggregate" function
     
     
-    ## calculate average deviation at each keypress (keypresses), for each unique strategy variation (strats and steers)
-    agrResults <- with(tableAllSamples,aggregate(deviations,list(keypresses=keypresses, strats= strats, steers= steers),mean))
-    agrResults$dev <- agrResults$x
-    
-    
-    ### also calculate the time interval
-    agrResults$times <- with(tableAllSamples,aggregate(times,list(keypresses=keypresses, strats= strats, steers= steers),mean))$x
-    
-    
-    ###now calculate mean drift across the trial
-    agrResultsMeanDrift <-  with(agrResults,aggregate(dev,list(strats= strats, steers= steers),mean))
-    agrResultsMeanDrift$dev <- agrResultsMeanDrift$x
-    
-    ### and mean trial time
-    agrResultsMeanDrift$TrialTime <-  with(agrResults[agrResults$keypresses ==11,],aggregate(times,list( strats= strats, steers= steers),mean))$x	
-    
-    
-    #### make a plot that visualizes all the strategies: note that trial time is divided by 1000 to get the time in seconds
-    #with(agrResultsMeanDrift,plot(TrialTime/1000,abs(dev),pch=21,bg="dark grey",col="dark grey",log="x",xlab="Dial time (s)",ylab="Average Lateral Deviation (m)"))
-    
-    pareto <- low(TrialTime) * low(abs(dev)) 
-    res <- psel(agrResultsMeanDrift, pareto, top = nrow(agrResultsMeanDrift))
-    
-    ### give a summary of the data	
-    summary(agrResultsMeanDrift$TrialTime)
-    return(res)
+    # ## calculate average deviation at each keypress (keypresses), for each unique strategy variation (strats and steers)
+    # agrResults <- with(tableAllSamples,aggregate(deviations,list(keypresses=keypresses),mean))
+    # agrResults$dev <- agrResults$x
+    # 
+    # 
+    # ### also calculate the time interval
+    # agrResults$times <- with(tableAllSamples,aggregate(times,list(keypresses=keypresses),mean))$x
+    # 
+    # 
+    # ###now calculate mean drift across the trial
+    # agrResultsMeanDrift <-  with(agrResults,aggregate(dev,list(steers= steers),mean))
+    # agrResultsMeanDrift$dev <- agrResultsMeanDrift$x
+    # 
+    # ### and mean trial time
+    # agrResultsMeanDrift$TrialTime <-  with(agrResults[agrResults$keypresses ==11,],aggregate(times,list(steers= steers),mean))$x	
+    # 
+    # 
+    # #### make a plot that visualizes all the strategies: note that trial time is divided by 1000 to get the time in seconds
+    # #with(agrResultsMeanDrift,plot(TrialTime/1000,abs(dev),pch=21,bg="dark grey",col="dark grey",log="x",xlab="Dial time (s)",ylab="Average Lateral Deviation (m)"))
+    # 
+    # pareto <- low(TrialTime) * low(abs(dev)) 
+    # res <- psel(tableAllSamples, pareto, top = nrow(tableAllSamples))
+    # 
+    # ### give a summary of the data	
+    # summary(tableAllSamples$TrialTime)
+    # return(res)
+    return(tableStrategies)
 }
 
+plot <- ggplot(kees) + ggtitle('something')
+plot <- plot + geom_point(data = kees, mapping = aes(x = timesVec/1000, y = devVec), colour = 'grey')
+plot <- plot + geom_point(data = kees[kees$HighlightVec==1,], mapping = aes(x = timesVec/1000, y = devVec), colour = 'red', alpha = 0.2, shape = 5)
+plot <- plot + geom_point(data = subpartSteer, mapping = aes(mean(DialingTime/1000), mean(LateralDeviation)))
+plot <- plot + geom_point(data = subpartDial, mapping = aes(mean(DialingTime/1000), mean(LateralDeviation)))
+plot <- plot + geom_errorbar(mapping = aes(DialTimeDial[1],ymin=LateralDial[1] - LateralDial[2], ymax = LateralDial[1] + LateralDial[2]))
+plot <- plot + geom_errorbar(mapping = aes(DialTimeSteer[1], ymin=LateralSteer[1] - LateralSteer[2], ymax = LateralSteer[1] + LateralSteer[2]))
+plot <- plot + geom_errorbarh(mapping = aes(y = LateralDial[1],xmin=DialTimeDial[1] - DialTimeDial[2], xmax = DialTimeDial[1] + DialTimeDial[2]))
+plot <- plot + geom_errorbarh(mapping = aes(y = LateralSteer[1], xmin=DialTimeSteer[1] - DialTimeSteer[2], xmax = DialTimeSteer[1] + DialTimeSteer[2]))
+
+plot
+
+
+statistics <- function(vec){
+  m <- mean(vec)
+  stdev <- sd(vec)
+  sterr <- stdev/(sqrt(length(vec)))
+  print(list(c('mean:', m), c('sd:', stdev), c('SE:', sterr)))
+  
+  return(c(m,sterr))
+}
+
+
+DialTimeDial <- statistics(condDualDialFocus[condDualSteerFocus$phoneNrLengthAfterKeyPress==12,]$timeRelativeToTrialStart/1000)
+DialTimeSteer <- statistics(condDualSteerFocus[condDualSteerFocus$phoneNrLengthAfterKeyPress==12,]$timeRelativeToTrialStart/1000)
+LateralDial  <- statistics(condDualDialFocus$lanePosition)
+LateralSteer <- statistics(condDualSteerFocus$lanePosition)
+# plot <- plot + geom_smooth(data = dataFrameModel[order(dataFrameModel[dataFrameModel$.level==1,]),], mapping = aes(x = TrialTime/1000, y = dev), formula =  y ~ x, colour = 'gray30', size =3)
+# plot <- plot + geom_point(data = dataFrameModel[dataFrameModel$.level==1,], mapping = aes(x = TrialTime/1000, y = dev))
+# plot <- plot + theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(),
+#                      panel.grid.minor = element_blank(),
+#                      panel.border = element_blank(),
+#                      panel.background = element_blank())
+# plot
+# plot <- plot + geom_line(data = subpartSteer, mapping = aes(DialingTime/1000, LateralDeviation), col = 'red')
+# plot <- plot + geom_line(data = subpartDial, mapping = aes(DialingTime/1000, LateralDeviation), col = 'blue')
+# plot <- plot + geom_point(data = subpartSteer, mapping = aes(DialingTime/1000, LateralDeviation), col = 'red', shape = 5)
+# plot <- plot + geom_point(data = subpartDial, mapping = aes(DialingTime/1000, LateralDeviation), col = 'blue')
+# plot <- plot + geom_errorbar(data = subpartSteer, mapping = aes(DialingTime/1000,ymin=LateralDeviation - SE, ymax = LateralDeviation + SE), colour = 'red')
+# plot <- plot + geom_errorbar(data = subpartDial, mapping = aes(DialingTime/1000, ymin=LateralDeviation - SE, ymax = LateralDeviation + SE), colour = 'blue')
+# plot
