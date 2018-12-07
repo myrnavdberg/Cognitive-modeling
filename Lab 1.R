@@ -76,7 +76,7 @@ subpartSteer <- merge(subpartSteer, subpartSteerSE, by = 'Group.1')
 colnames(subpartDial) <- c('Keypressed', 'LateralDeviation', 'DialingTime', 'SE')
 colnames(subpartSteer) <- c('Keypressed', 'LateralDeviation', 'DialingTime', 'SE')
 
-plot <- qplot(subpartDial$DialingTime, subpartDial$LateralDeviation, xlab = 'Dialing Time (ms)', ylab = 'Lateral Deviation (m)',main = 'Lateral deviation for each keypress in time seperated for the steering (red) and dialing (black) condition.', geom = c('line', 'point'))
+plot <- qplot(subpartDial$DialingTime, subpartDial$LateralDeviation, xlab = 'Dialing Time (ms)', ylab = 'Lateral Deviation (m)',main = 'Lateral deviation for each keypress in time seperated for the \nsteering (red) and dialing (black) condition.', geom = c('line', 'point'))
 plot <- plot + theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(),
              panel.grid.minor = element_blank(),
              panel.border = element_blank(),
@@ -114,6 +114,7 @@ DriftData = read.csv('tableOfDriftValuesCalibration.csv', header = TRUE, sep = '
 necessaryDriftData <- DriftData[DriftData$trialTime >= 15000 & DriftData$trialTime <= 18000,]
 plot <- ggplot(data = necessaryDriftData)
 plot <- plot + geom_line(data = necessaryDriftData, aes(x = trialTime, y = posX, colour = as.factor(trial), group = as.factor(trial)))
+plot <- plot + labs(col="trial") + xlab('Time') + ylab('Drift')
 plot
 
 #B
@@ -140,6 +141,7 @@ df <- createDf(df, 0.13)
 
 plot <- ggplot(data = df)
 plot <- plot + geom_line(data = df, aes(x = time, y = drift, colour = as.factor(trial), group = as.factor(trial)))
+plot <- plot + labs(col="trial")
 plot
 
 #C
@@ -206,8 +208,9 @@ while (!done){
 # sd = 0.05
 
 #(II) A plot	of	how	lane	position	changes	over	time	for	the	individual	simulated	trials
-plot <- ggplot(data = finaldf) + ggtitle('modelled drift over time per trial')
+plot <- ggplot(data = finaldf) + ggtitle('Modelled drift over time per trial')
 plot <- plot + geom_line(data = finaldf, aes(x = time, y = drift, colour = as.factor(trial), group = as.factor(trial)))
+plot <- plot + labs(col="trial")
 plot
 
 #(III) A plot	of the	resulting	distribution (against human data)
@@ -266,4 +269,6 @@ mean(participantMean)
 #########################################
 ###############Question 4################
 #########################################
+
+
 
