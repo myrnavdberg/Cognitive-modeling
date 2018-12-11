@@ -501,10 +501,10 @@ runAllComplexStrategies <- function(nrSimulations=1, phoneNumber="07854325698"){
 
     }##end of for nr strategies
 }
-    print(length(simTimes))
-    print(length(simDeviations))
-    print(length(simStrats))
-    print(numberofstrategies)
+    # print(length(simTimes))
+    # print(length(simDeviations))
+    # print(length(simStrats))
+    # print(numberofstrategies)
     
     tableResults <- data.frame(simTimes, simDeviations, simStrats)
     names(tableResults) <- c("TrialTime", "dev", "strat")
@@ -602,14 +602,14 @@ plot
 
 
 doItAll <- function(){
-  count <- 1
+
   for (A in 1:2){
     for (B in 1:2){
       for (C in 1:2){
         gaussDeviateSD = drift.sd[A]
         gaussDriveNoiseSD = drift.noise[A]
         singleTaskKeyPressTimes <- c(rep(iki[B], 11))
-        filename <- paste("TotalmodelPlot50sim",count,".png",sep='')
+        filename <- paste("TotalmodelPlot",A,B,C,".png",sep='')
         tableModels <- runAllComplexStrategies(nrSimulations = nrSimulation[C])#nrSimulation[C])
 
         #Create the plot from the table data
@@ -627,11 +627,6 @@ doItAll <- function(){
                              panel.border = element_blank(),
                              panel.background = element_blank())
         ggsave(filename, plot, device = 'png', width = 21, height = 16, units = 'cm')
-        #plot
-        
-        count <- count+1
-        
-        
         
       }
     }
