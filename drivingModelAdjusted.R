@@ -7,7 +7,7 @@
 ## for questions, please contact Christian P. Janssen: c.p.janssen@uu.nl
 ## www.cpjanssen.nl
 
-setwd('C:/Users/Myrna/Documents/Universiteit Utrecht/Cognitive modeling/Lab 1')
+setwd('C:/Users/Vladimir/Documents/Universiteit/AI/Cognitive Modeling')
 
 library(ggplot2)
 require(gtools)
@@ -16,11 +16,6 @@ require(rPref)
 require(igraph)
 require(ggplot)
 source('Lab 1.R')
-
-
-
-
-
 
 ##global parameters
 
@@ -82,9 +77,6 @@ analysisOfHumanData <- function()
   
   
 }
-
-
-
 
 ##new function
 runOneTrial <- function(strategy,nrSteeringUpdates,normalPhoneStructure,phoneStringLength,phoneNumber)   #### strategy stores where participant interleaves
@@ -178,10 +170,6 @@ runOneTrial <- function(strategy,nrSteeringUpdates,normalPhoneStructure,phoneStr
   
 }
 
-
-
-
-
 #### Main function to run the code. For example: runAllSimpleStrategies(5,"07854325698") will run 5 simulations for each (simple) strategy on the phone number to the right. The default assumption is that the chunk boundary is between the 5th and 6th digit
 
 runAllSimpleStrategies <- function(nrSimulations,phoneNumber)
@@ -200,29 +188,29 @@ runAllSimpleStrategies <- function(nrSimulations,phoneNumber)
   steers <- c()	
   
   if (simpleSetOfStrategyVariations){
-  ### iterate through all strategies
-  ## in this simple model we assume that a participant uses a consistent strategy throughout the trial. That is, they only type each time 1 digit, or type 2 digits at a time, or type 3 digits at a time (i.e., all possible ways of 1:phoneStringLength: 1, 2,3,4, ...11)
-  for (nrDigitsPerTime in 1: phoneStringLength)
-  {
-    ## quick way of calculating positions to interleave: repeat strategy & multiply with position in vector (e.g., 333*123 = 369 this means: you interleave BEFORE every 3rd digit (333), and there are 3 positions to interleave (1st, 2nd, 3rd, or 123). Therefore you interleave BEFORE digits 3 (3*1), 6 (3*2), and 9 (3*3))
-    
-    if (nrDigitsPerTime != 11)
+    ### iterate through all strategies
+    ## in this simple model we assume that a participant uses a consistent strategy throughout the trial. That is, they only type each time 1 digit, or type 2 digits at a time, or type 3 digits at a time (i.e., all possible ways of 1:phoneStringLength: 1, 2,3,4, ...11)
+    for (nrDigitsPerTime in 1: phoneStringLength)
     {
-      strategy <- rep(nrDigitsPerTime ,floor(phoneStringLength/nrDigitsPerTime))  ### stores at which positions the number is interleaved
-      print(strategy)
-      positions <- 1:length(strategy)
-      strategy <- strategy * positions
-      #print(strategy)
-      ### remove last digit, as driver does not interleave after typing the last digit (they are done with the trial :-)  )
-      strategy <- strategy[strategy != phoneStringLength]
-      print(strategy)
-      }
-    else
-    {
-      strategy <- c()	
+      ## quick way of calculating positions to interleave: repeat strategy & multiply with position in vector (e.g., 333*123 = 369 this means: you interleave BEFORE every 3rd digit (333), and there are 3 positions to interleave (1st, 2nd, 3rd, or 123). Therefore you interleave BEFORE digits 3 (3*1), 6 (3*2), and 9 (3*3))
       
+      if (nrDigitsPerTime != 11)
+      {
+        strategy <- rep(nrDigitsPerTime ,floor(phoneStringLength/nrDigitsPerTime))  ### stores at which positions the number is interleaved
+        print(strategy)
+        positions <- 1:length(strategy)
+        strategy <- strategy * positions
+        #print(strategy)
+        ### remove last digit, as driver does not interleave after typing the last digit (they are done with the trial :-)  )
+        strategy <- strategy[strategy != phoneStringLength]
+        print(strategy)
+      }
+      else
+      {
+        strategy <- c()	
+        
+      }
     }
-  }
     
     
     locSteerTimeOptions <- steeringTimeOptions
@@ -257,7 +245,7 @@ runAllSimpleStrategies <- function(nrSimulations,phoneNumber)
     }#end of for steerTimes	
     
   }##end of for nr strategies
-}
+  
   
   ### now make a new table based on all the data that was collected
   tableAllSamples <- data.frame(keypresses,times,deviations,strats,steers)
@@ -307,15 +295,6 @@ runAllSimpleStrategies <- function(nrSimulations,phoneNumber)
   return(res)
 }
 
-
-
-
-
-
-
-
-
-
 ### function that generates the points at which car data should be collected (specifically: if you know that a keypress happens after a specific time, then find out at what points a drift update occurs, this depends on the ength of "timeStepPerDriftUpdate" (50 msec by default))	
 updateTimestampslist <- function(timestampsList, totalTime)
 {
@@ -332,13 +311,6 @@ updateTimestampslist <- function(timestampsList, totalTime)
   timestampsList
   
 }
-
-
-
-
-
-
-
 
 ### This function calculates how much the car drifts during episodes where the driver/model is not actively driving
 calculateLaneDrift <- function(startPositionOfDrift, startVelocityOfDrift, driftTimeInMilliSeconds)
@@ -391,10 +363,6 @@ calculateLaneDrift <- function(startPositionOfDrift, startVelocityOfDrift, drift
   returnValues
 }
 
-
-
-
-
 ##calculates if the car is not accelerating more than it should (maxLateralVelocity) or less than it should (minLateralVelocity)
 velocityCheck <- function(localVelocity)
 {
@@ -416,9 +384,6 @@ velocityCheckForVectors <- function(velocityVectors)
   velocityVectors
   
 }
-
-
-
 
 ### this function is used to update the velocity (and in effect lateral lane position) when the driver/model is actively driving
 updateSteering <- function(velocity,nrUpdates,startPosLane)
@@ -462,10 +427,6 @@ updateSteering <- function(velocity,nrUpdates,startPosLane)
   
 }
 
-
-
-
-
 ##########################################################
 ######### Engeneering runComplexFunction #################
 ##########################################################
@@ -477,98 +438,98 @@ nrSimulation <- c(10,50)
 
 runAllComplexStrategies <- function(nrSimulations=1, phoneNumber="07854325698"){
   
-    
-    normalPhoneStructure <- c(1,6)  ### indicate at what digit positions a chunk needs to be retrieved (1st and 6th digit)
-    phoneStringLength <- 11   ### how many digits does the number have?
-    
-    
-    ### vectors that will contain output of the simulation. These are later used to create 1 table with all values
-    keypresses <- c()
-    times <- c()
-    deviations <- c()
-    strats <- c()
-    steers <- c()	
-    HighlightVec <- c()
-    timesVec <- c()
-    devVec <- c()
-    timesMean <- c()
-    devMean <- c()
-    strategyVec <- c()
-
-    
-    
-      for (nrOfInterleavesVAR in 1:(phoneStringLength-1)){
-        listOfCombn <- combn(10,nrOfInterleavesVAR)
-        #print(listOfCombn)
-        for (i in 1:length(listOfCombn[1,])){
-          strategy <- listOfCombn[,i]
+  
+  normalPhoneStructure <- c(1,6)  ### indicate at what digit positions a chunk needs to be retrieved (1st and 6th digit)
+  phoneStringLength <- 11   ### how many digits does the number have?
+  
+  
+  ### vectors that will contain output of the simulation. These are later used to create 1 table with all values
+  keypresses <- c()
+  times <- c()
+  deviations <- c()
+  strats <- c()
+  steers <- c()	
+  HighlightVec <- c()
+  timesVec <- c()
+  devVec <- c()
+  timesMean <- c()
+  devMean <- c()
+  strategyVec <- c()
+  
+  
+  
+  for (nrOfInterleavesVAR in 1:(phoneStringLength-1)){
+    listOfCombn <- combn(10,nrOfInterleavesVAR)
+    #print(listOfCombn)
+    for (i in 1:length(listOfCombn[1,])){
+      strategy <- listOfCombn[,i]
+      
+      locSteerTimeOptions <- steeringTimeOptions
+      if (length(strategy) == 0)
+      {
+        locSteerTimeOptions <- c(0)
+      }
+      
+      
+      
+      ### now run a trial (runOneTrial) for all combinations of how frequently you update the steering when you are steering (locSteerTimeOptions) and for the nuber of simulations that you want to run for each strategy (nrSimulations)
+      for (steerTimes in locSteerTimeOptions)
+      {
+        for (i in 1:nrSimulations)
+        {
           
-          locSteerTimeOptions <- steeringTimeOptions
-          if (length(strategy) == 0)
-          {
-            locSteerTimeOptions <- c(0)
+          ### run the simulation and store the output in a table
+          locTab <- runOneTrial(strategy, steerTimes,normalPhoneStructure,phoneStringLength,phoneNumber)
+          
+          ##only look at rows where there is a keypress
+          locTab <- locTab[locTab$events == "keypress",]
+          
+          ### add the relevant data points to variables that are stored in a final table
+          keypresses <- c(keypresses,1:nrow(locTab))
+          times <- c(times,locTab$times)
+          deviations <- c(deviations,locTab$drifts)
+          strats <- c(strats,toString(rep(strategy,nrow(locTab))))
+          steers <- c(steers,rep(steerTimes,nrow(locTab)))
+          
+          #print('strategy')
+          #print(strategy)
+          if (5 %in% strategy){
+            #print(strategy)
+            Highlight <- 1
+          }else{
+            Highlight <- 0
           }
           
+          timesVec <- c(timesVec,mean(locTab$times))
+          devVec <- c(devVec, mean(abs(locTab$drifts)))
           
           
-          ### now run a trial (runOneTrial) for all combinations of how frequently you update the steering when you are steering (locSteerTimeOptions) and for the nuber of simulations that you want to run for each strategy (nrSimulations)
-          for (steerTimes in locSteerTimeOptions)
-          {
-            for (i in 1:nrSimulations)
-            {
-              
-              ### run the simulation and store the output in a table
-              locTab <- runOneTrial(strategy, steerTimes,normalPhoneStructure,phoneStringLength,phoneNumber)
-              
-              ##only look at rows where there is a keypress
-              locTab <- locTab[locTab$events == "keypress",]
-              
-              ### add the relevant data points to variables that are stored in a final table
-              keypresses <- c(keypresses,1:nrow(locTab))
-              times <- c(times,locTab$times)
-              deviations <- c(deviations,locTab$drifts)
-              strats <- c(strats,toString(rep(strategy,nrow(locTab))))
-              steers <- c(steers,rep(steerTimes,nrow(locTab)))
-              
-              #print('strategy')
-              #print(strategy)
-              if (5 %in% strategy){
-                #print(strategy)
-                Highlight <- 1
-              }else{
-                Highlight <- 0
-              }
-              
-              timesVec <- c(timesVec,mean(locTab$times))
-              devVec <- c(devVec, mean(abs(locTab$drifts)))
-              
-              
-
-
-              
-           
-              
-            }
-           
-          }#end of for steerTimes	
-          HighlightVec <- c(HighlightVec,Highlight)
-          timesMean <- c(timesMean,mean(timesVec))
-          devMean <- c(devMean, mean(abs(devVec)))
-          strategyVec <- c(strategyVec,toString(strategy))
           
-        }##end of for nr strategies
-      }
-    
-    ### now make a new table based on all the data that was collected
-    tableAllSamples <- data.frame(keypresses,times,deviations,strats,steers)
-    print(strategy)
-    tableStrategies <- data.frame(timesVec,devVec, HighlightVec, strategyVec)
-    tableStrategies
-    
-    
-    #sfksje
-    
-    return(tableStrategies)
+          
+          
+          
+          
+        }
+        
+      }#end of for steerTimes	
+      HighlightVec <- c(HighlightVec,Highlight)
+      timesMean <- c(timesMean,mean(timesVec))
+      devMean <- c(devMean, mean(abs(devVec)))
+      strategyVec <- c(strategyVec,toString(strategy))
+      
+    }##end of for nr strategies
+  }
+  
+  ### now make a new table based on all the data that was collected
+  tableAllSamples <- data.frame(keypresses,times,deviations,strats,steers)
+  print(strategy)
+  tableStrategies <- data.frame(timesVec,devVec, HighlightVec, strategyVec)
+  tableStrategies
+  
+  
+  #sfksje
+  
+  return(tableStrategies)
 }
 
 ##########################################################
@@ -601,32 +562,32 @@ minDialY <- LateralDial[1] - LateralDial[2]
 maxDialY <- LateralDial[1] + LateralDial[2]
 minSteerY <- LateralSteer[1] - LateralSteer[2]
 maxSteerY <- LateralSteer[1] + LateralSteer[2]
-
-
-Allmodels <- runAllComplexStrategies(nrSimulations = 1)
-AltTableModelsDialFocus <- Allmodels[(Allmodels$timesVec/1000 >minDialX & Allmodels$timesVec/1000 < maxDialX) & (Allmodels$devVec > minDialY & Allmodels$devVec < maxDialY),]
-AltTableModelsSteerFocus <- Allmodels[(Allmodels$timesVec/1000 >minSteerX & Allmodels$timesVec/1000 < maxSteerX) & (Allmodels$devVec > minSteerY & Allmodels$devVec < maxSteerY),]
-
-write.table(AltTableModelsDialFocus, file = 'AltTableModelsDialFocus.csv', sep = ";", col.names = TRUE, row.names = TRUE)
-write.table(AltTableModelsSteerFocus, file = 'AltTableModelsSteerFocus.csv', sep = ";", col.names = TRUE, row.names = TRUE)
-
-
-plot <- ggplot(Allmodels) + ggtitle('Model and human performances for different strategies') + xlab('Dial Time (sec)') + ylab('Mean Deviation (m)')
-plot <- plot + geom_point(data = Allmodels, mapping = aes(x = timesVec/1000, y = devVec), colour = 'grey')
-plot <- plot + geom_point(data = Allmodels[Allmodels$HighlightVec==1,], mapping = aes(x = timesVec/1000, y = devVec), colour = 'red', alpha = 0.2, shape = 5)
-plot <- plot + geom_point(mapping = aes(DialTimeDial[1], LateralDial[1]), shape = 3,)
-plot <- plot + geom_point(mapping = aes(DialTimeSteer[1], LateralSteer[1]))
-plot <- plot + geom_errorbar(mapping = aes(DialTimeDial[1],ymin=LateralDial[1] - LateralDial[2], ymax = LateralDial[1] + LateralDial[2],width = 0.33))
-plot <- plot + geom_errorbar(mapping = aes(DialTimeSteer[1], ymin=LateralSteer[1] - LateralSteer[2], ymax = LateralSteer[1] + LateralSteer[2], width = 0.33))
-plot <- plot + geom_errorbarh(mapping = aes(y = LateralDial[1],xmin=DialTimeDial[1] - DialTimeDial[2], xmax = DialTimeDial[1] + DialTimeDial[2], height = 0.02))
-plot <- plot + geom_errorbarh(mapping = aes(y = LateralSteer[1], xmin=DialTimeSteer[1] - DialTimeSteer[2], xmax = DialTimeSteer[1] + DialTimeSteer[2], height = 0.02))
-plot <- plot + theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(),
-                     panel.grid.minor = element_blank(),
-                     panel.border = element_blank(),
-                     panel.background = element_blank())
-ggsave('plotQuestion5A.png', plot, device = 'png', width = 21, height = 18, units = 'cm')
-
-plot
+# 
+# 
+# Allmodels <- runAllComplexStrategies(nrSimulations = 50)
+# AltTableModelsDialFocus <- Allmodels[(Allmodels$timesVec/1000 >minDialX & Allmodels$timesVec/1000 < maxDialX) & (Allmodels$devVec > minDialY & Allmodels$devVec < maxDialY),]
+# AltTableModelsSteerFocus <- Allmodels[(Allmodels$timesVec/1000 >minSteerX & Allmodels$timesVec/1000 < maxSteerX) & (Allmodels$devVec > minSteerY & Allmodels$devVec < maxSteerY),]
+# 
+# write.table(AltTableModelsDialFocus, file = 'AltTableModelsDialFocus.csv', sep = ";", col.names = TRUE, row.names = TRUE)
+# write.table(AltTableModelsSteerFocus, file = 'AltTableModelsSteerFocus.csv', sep = ";", col.names = TRUE, row.names = TRUE)
+# 
+# 
+# plot <- ggplot(Allmodels) + ggtitle('Model and human performances for different strategies') + xlab('Dial Time (sec)') + ylab('Mean Deviation (m)')
+# plot <- plot + geom_point(data = Allmodels, mapping = aes(x = timesVec/1000, y = devVec), colour = 'grey')
+# plot <- plot + geom_point(data = Allmodels[Allmodels$HighlightVec==1,], mapping = aes(x = timesVec/1000, y = devVec), colour = 'red', alpha = 0.2, shape = 5)
+# plot <- plot + geom_point(mapping = aes(DialTimeDial[1], LateralDial[1]), shape = 3,)
+# plot <- plot + geom_point(mapping = aes(DialTimeSteer[1], LateralSteer[1]))
+# plot <- plot + geom_errorbar(mapping = aes(DialTimeDial[1],ymin=LateralDial[1] - LateralDial[2], ymax = LateralDial[1] + LateralDial[2],width = 0.33))
+# plot <- plot + geom_errorbar(mapping = aes(DialTimeSteer[1], ymin=LateralSteer[1] - LateralSteer[2], ymax = LateralSteer[1] + LateralSteer[2], width = 0.33))
+# plot <- plot + geom_errorbarh(mapping = aes(y = LateralDial[1],xmin=DialTimeDial[1] - DialTimeDial[2], xmax = DialTimeDial[1] + DialTimeDial[2], height = 0.02))
+# plot <- plot + geom_errorbarh(mapping = aes(y = LateralSteer[1], xmin=DialTimeSteer[1] - DialTimeSteer[2], xmax = DialTimeSteer[1] + DialTimeSteer[2], height = 0.02))
+# plot <- plot + theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(),
+#                      panel.grid.minor = element_blank(),
+#                      panel.border = element_blank(),
+#                      panel.background = element_blank())
+# ggsave('plotQuestion5A.png', plot, device = 'png', width = 21, height = 16, units = 'cm')
+# 
+# plot
 
 
 #B Reasoning question
@@ -656,12 +617,12 @@ doItAll <- function(){
   count <- 1
   for (A in 1:2){
     for (B in 1:2){
-      for (C in 1:2){
+      for (C in 2:2){
         gaussDeviateSD = drift.sd[A]
         gaussDriveNoiseSD = drift.noise[A]
         singleTaskKeyPressTimes <- c(rep(iki[B], 11))
-        filename <- paste("TotalmodelPlot",count,".png",sep='')
-        tableModels <- runAllComplexStrategies(nrSimulations = 1)#nrSimulation[C])
+        filename <- paste("TotalmodelPlot50sim",count,".png",sep='')
+        tableModels <- runAllComplexStrategies(nrSimulations = nrSimulation[C])#nrSimulation[C])
         
         # minDialX <- DialTimeDial[1] - DialTimeDial[2]
         # maxDialX <- DialTimeDial[1] + DialTimeDial[2]
@@ -672,7 +633,7 @@ doItAll <- function(){
         # minSteerY <- LateralSteer[1] - LateralSteer[2]
         # maxSteerY <- LateralSteer[1] + LateralSteer[2]
         
-
+        
         
         #Create the plot from the table data
         plot <- ggplot(tableModels) + ggtitle('Model and human performances for different strategies') + xlab('Dial Time (sec)') + ylab('Mean Deviation (m)')
@@ -688,8 +649,8 @@ doItAll <- function(){
                              panel.grid.minor = element_blank(),
                              panel.border = element_blank(),
                              panel.background = element_blank())
-        ggsave(filename, plot, device = 'png', width = 21, height = 18, units = 'cm')
-        plot
+        ggsave(filename, plot, device = 'png', width = 21, height = 16, units = 'cm')
+        #plot
         
         count <- count+1
         
