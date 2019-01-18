@@ -4,9 +4,13 @@ source('Task 1 and 2.R')
 
 #Task 8
 
-#F3
+#Decide the genders
 mostDistincVowels <- data[(data$vowel == 'iy'|data$vowel == 'uw'|data$vowel == 'ah')&(data$gender=='w'|data$gender=='b'|data$gender=='g'),]
 lessDistinctVowels <- data[(data$vowel == 'iy'|data$vowel == 'ih'|data$vowel == 'eh')&(data$gender=='w'|data$gender=='b'|data$gender=='g'),]
+
+
+
+
 
 mostDistincVowels[mostDistincVowels==0]<-NA
 lessDistinctVowels[lessDistinctVowels==0]<-NA
@@ -145,6 +149,47 @@ for (i in 1:6){
 }
 #.998 for a.i.u
 
+labeled.3d.F3.aiu <- matrix(0,3,3)
+dim <- 3+1
+column <- which.max(acc.list.3d.F3.aiu) + dim 
+
+for(i in 1:length(testset1[,dim])){
+  if (testset1[i,dim] == 1){
+    if (testset1[i,column] == 1){
+      labeled.3d.F3.aiu[1,1] <- labeled.3d.F3.aiu[1,1] + 1
+    }
+    if (testset1[i,column] == 2){
+      labeled.3d.F3.aiu[1,2] <- labeled.3d.F3.aiu[1,2] + 1
+    }
+    if (testset1[i,column] == 3){
+      labeled.3d.F3.aiu[1,3] <- labeled.3d.F3.aiu[1,3] + 1
+    }
+  }
+  if (testset1[i,dim] == 2){
+    if (testset1[i,column] == 1){
+      labeled.3d.F3.aiu[2,1] <- labeled.3d.F3.aiu[2,1] + 1
+    }
+    if (testset1[i,column] == 2){
+      labeled.3d.F3.aiu[2,2] <- labeled.3d.F3.aiu[2,2] + 1
+    }
+    if (testset1[i,column] == 3){
+      labeled.3d.F3.aiu[2,3] <- labeled.3d.F3.aiu[2,3] + 1
+    }
+  }
+  if (testset1[i,dim] == 3){
+    if (testset1[i,column] == 1){
+      labeled.3d.F3.aiu[3,1] <- labeled.3d.F3.aiu[3,1] + 1
+    }
+    if (testset1[i,column] == 2){
+      labeled.3d.F3.aiu[3,2] <- labeled.3d.F3.aiu[3,2] + 1
+    }
+    if (testset1[i,column] == 3){
+      labeled.3d.F3.aiu[3,3] <- labeled.3d.F3.aiu[3,3] + 1
+    }
+  }
+}
+
+
 
 
 
@@ -225,6 +270,45 @@ for (i in 1:6){
 }
 #.960 voor balanced eh.iy.ih
 
+labeled.3d.F3.ehiyih <- matrix(0,3,3)
+dim <- 3+1
+column <- which.max(acc.list.3d.F3.ehiyih) + dim 
+
+for(i in 1:length(testset2[,dim])){
+  if (testset2[i,dim] == 1){
+    if (testset2[i,column] == 1){
+      labeled.3d.F3.ehiyih[1,1] <- labeled.3d.F3.ehiyih[1,1] + 1
+    }
+    if (testset2[i,column] == 2){
+      labeled.3d.F3.ehiyih[1,2] <- labeled.3d.F3.ehiyih[1,2] + 1
+    }
+    if (testset2[i,column] == 3){
+      labeled.3d.F3.ehiyih[1,3] <- labeled.3d.F3.ehiyih[1,3] + 1
+    }
+  }
+  if (testset2[i,dim] == 2){
+    if (testset2[i,column] == 1){
+      labeled.3d.F3.ehiyih[2,1] <- labeled.3d.F3.ehiyih[2,1] + 1
+    }
+    if (testset2[i,column] == 2){
+      labeled.3d.F3.ehiyih[2,2] <- labeled.3d.F3.ehiyih[2,2] + 1
+    }
+    if (testset2[i,column] == 3){
+      labeled.3d.F3.ehiyih[2,3] <- labeled.3d.F3.ehiyih[2,3] + 1
+    }
+  }
+  if (testset2[i,dim] == 3){
+    if (testset2[i,column] == 1){
+      labeled.3d.F3.ehiyih[3,1] <- labeled.3d.F3.ehiyih[3,1] + 1
+    }
+    if (testset2[i,column] == 2){
+      labeled.3d.F3.ehiyih[3,2] <- labeled.3d.F3.ehiyih[3,2] + 1
+    }
+    if (testset2[i,column] == 3){
+      labeled.3d.F3.ehiyih[3,3] <- labeled.3d.F3.ehiyih[3,3] + 1
+    }
+  }
+}
 
 
 
@@ -370,6 +454,50 @@ for (i in 1:6){
 }
 #.999 for a.i.u
 
+labeled.3d.duration.aiu <- matrix(0,3,3)
+dim <- 3 +1
+column <- which.max(acc.list.3d.duration.aiu) + dim 
+
+for(i in 1:length(testset1[,dim])){
+  if (testset1[i,dim] == 1){
+    if (testset1[i,column] == 1){
+      labeled.3d.duration.aiu[1,1] <- labeled.3d.duration.aiu[1,1] + 1
+    }
+    if (testset1[i,column] == 2){
+      labeled.3d.duration.aiu[1,2] <- labeled.3d.duration.aiu[1,2] + 1
+    }
+    if (testset1[i,column] == 3){
+      labeled.3d.duration.aiu[1,3] <- labeled.3d.duration.aiu[1,3] + 1
+    }
+  }
+  if (testset1[i,dim] == 2){
+    if (testset1[i,column] == 1){
+      labeled.3d.duration.aiu[2,1] <- labeled.3d.duration.aiu[2,1] + 1
+    }
+    if (testset1[i,column] == 2){
+      labeled.3d.duration.aiu[2,2] <- labeled.3d.duration.aiu[2,2] + 1
+    }
+    if (testset1[i,column] == 3){
+      labeled.3d.duration.aiu[2,3] <- labeled.3d.duration.aiu[2,3] + 1
+    }
+  }
+  if (testset1[i,dim] == 3){
+    if (testset1[i,column] == 1){
+      labeled.3d.duration.aiu[3,1] <- labeled.3d.duration.aiu[3,1] + 1
+    }
+    if (testset1[i,column] == 2){
+      labeled.3d.duration.aiu[3,2] <- labeled.3d.duration.aiu[3,2] + 1
+    }
+    if (testset1[i,column] == 3){
+      labeled.3d.duration.aiu[3,3] <- labeled.3d.duration.aiu[3,3] + 1
+    }
+  }
+}
+
+
+
+
+
 #Testset 2
 testset2 <- testset2[sample(nrow(testset2), nrow(testset2)), ]
 row.names(testset2) <- NULL
@@ -441,6 +569,51 @@ for (i in 1:6){
 
 }
 #.928 voor balanced eh.iy.ih
+
+labeled.3d.duration.ehiyih <- matrix(0,3,3)
+dim <- 3+ 1
+column <- which.max(acc.list.3d.duration.ehiyih) + dim 
+
+for(i in 1:length(testset2[,dim])){
+  if (testset2[i,dim] == 1){
+    if (testset2[i,column] == 1){
+      labeled.3d.duration.ehiyih[1,1] <- labeled.3d.duration.ehiyih[1,1] + 1
+    }
+    if (testset2[i,column] == 2){
+      labeled.3d.duration.ehiyih[1,2] <- labeled.3d.duration.ehiyih[1,2] + 1
+    }
+    if (testset2[i,column] == 3){
+      labeled.3d.duration.ehiyih[1,3] <- labeled.3d.duration.ehiyih[1,3] + 1
+    }
+  }
+  if (testset2[i,dim] == 2){
+    if (testset2[i,column] == 1){
+      labeled.3d.duration.ehiyih[2,1] <- labeled.3d.duration.ehiyih[2,1] + 1
+    }
+    if (testset2[i,column] == 2){
+      labeled.3d.duration.ehiyih[2,2] <- labeled.3d.duration.ehiyih[2,2] + 1
+    }
+    if (testset2[i,column] == 3){
+      labeled.3d.duration.ehiyih[2,3] <- labeled.3d.duration.ehiyih[2,3] + 1
+    }
+  }
+  if (testset2[i,dim] == 3){
+    if (testset2[i,column] == 1){
+      labeled.3d.duration.ehiyih[3,1] <- labeled.3d.duration.ehiyih[3,1] + 1
+    }
+    if (testset2[i,column] == 2){
+      labeled.3d.duration.ehiyih[3,2] <- labeled.3d.duration.ehiyih[3,2] + 1
+    }
+    if (testset2[i,column] == 3){
+      labeled.3d.duration.ehiyih[3,3] <- labeled.3d.duration.ehiyih[3,3] + 1
+    }
+  }
+}
+
+
+
+
+
 
 
 
@@ -546,6 +719,47 @@ for (i in 1:6){
 }
 
 
+labeled.2d.aiu <- matrix(0,3,3)
+dim <- 2 +1
+column <- which.max(acc.list.2d.aiu) + dim 
+
+for(i in 1:length(testset[,dim])){
+  if (testset[i,dim] == 1){
+    if (testset[i,column] == 1){
+      labeled.2d.aiu[1,1] <- labeled.2d.aiu[1,1] + 1
+    }
+    if (testset[i,column] == 2){
+      labeled.2d.aiu[1,2] <- labeled.2d.aiu[1,2] + 1
+    }
+    if (testset[i,column] == 3){
+      labeled.2d.aiu[1,3] <- labeled.2d.aiu[1,3] + 1
+    }
+  }
+  if (testset[i,dim] == 2){
+    if (testset[i,column] == 1){
+      labeled.2d.aiu[2,1] <- labeled.2d.aiu[2,1] + 1
+    }
+    if (testset[i,column] == 2){
+      labeled.2d.aiu[2,2] <- labeled.2d.aiu[2,2] + 1
+    }
+    if (testset[i,column] == 3){
+      labeled.2d.aiu[2,3] <- labeled.2d.aiu[2,3] + 1
+    }
+  }
+  if (testset[i,dim] == 3){
+    if (testset[i,column] == 1){
+      labeled.2d.aiu[3,1] <- labeled.2d.aiu[3,1] + 1
+    }
+    if (testset[i,column] == 2){
+      labeled.2d.aiu[3,2] <- labeled.2d.aiu[3,2] + 1
+    }
+    if (testset[i,column] == 3){
+      labeled.2d.aiu[3,3] <- labeled.2d.aiu[3,3] + 1
+    }
+  }
+}
+
+
 
 
 
@@ -645,5 +859,46 @@ acc.list.2d.ehiyih <- c()
 for (i in 1:6){
   acc.list.2d.ehiyih <- c(acc.list.2d.ehiyih, length(testset$TrueCat[testset$TrueCat == testset[,3+i]]) /length(testset$TrueCat))
 
+}
+
+
+labeled.2d.ehiyih <- matrix(0,3,3)
+dim <- 2 +1
+column <- which.max(acc.list.2d.ehiyih) + dim 
+
+for(i in 1:length(testset[,dim])){
+  if (testset[i,dim] == 1){
+    if (testset[i,column] == 1){
+      labeled.2d.ehiyih[1,1] <- labeled.2d.ehiyih[1,1] + 1
+    }
+    if (testset[i,column] == 2){
+      labeled.2d.ehiyih[1,2] <- labeled.2d.ehiyih[1,2] + 1
+    }
+    if (testset[i,column] == 3){
+      labeled.2d.ehiyih[1,3] <- labeled.2d.ehiyih[1,3] + 1
+    }
+  }
+  if (testset[i,dim] == 2){
+    if (testset[i,column] == 1){
+      labeled.2d.ehiyih[2,1] <- labeled.2d.ehiyih[2,1] + 1
+    }
+    if (testset[i,column] == 2){
+      labeled.2d.ehiyih[2,2] <- labeled.2d.ehiyih[2,2] + 1
+    }
+    if (testset[i,column] == 3){
+      labeled.2d.ehiyih[2,3] <- labeled.2d.ehiyih[2,3] + 1
+    }
+  }
+  if (testset[i,dim] == 3){
+    if (testset[i,column] == 1){
+      labeled.2d.ehiyih[3,1] <- labeled.2d.ehiyih[3,1] + 1
+    }
+    if (testset[i,column] == 2){
+      labeled.2d.ehiyih[3,2] <- labeled.2d.ehiyih[3,2] + 1
+    }
+    if (testset[i,column] == 3){
+      labeled.2d.ehiyih[3,3] <- labeled.2d.ehiyih[3,3] + 1
+    }
+  }
 }
 

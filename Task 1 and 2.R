@@ -30,3 +30,6 @@ plot(mostDistincVowels$F2.at.steady.state, mostDistincVowels$F1.at.steady.state,
 
 mostDistincVowels[mostDistincVowels==0]<-NA
 mostDistincVowels<- mostDistincVowels[complete.cases(mostDistincVowels), ]
+
+char.var <- c(1,2,3)
+df = as.data.frame(permutations(n=length(char.var), r=3, v=char.var))
