@@ -7,7 +7,7 @@ mostDistincVowels <- data[data$vowel == 'iy'|data$vowel == 'uw'|data$vowel == 'a
 lessDistinctVowels <- data[data$vowel == 'iy'|data$vowel == 'ih'|data$vowel == 'eh',]
 
 mostDistincVowels[mostDistincVowels==0]<-NA
-lessDistinctVowels[lessDistincVowels==0]<-NA
+lessDistinctVowels[lessDistinctVowels==0]<-NA
 
 aMeanF1 <- mean(mostDistincVowels$F1.at.steady.state[mostDistincVowels$vowel=='ah'], na.rm = TRUE) #892.568
 aMeanF2 <- mean(mostDistincVowels$F2.at.steady.state[mostDistincVowels$vowel=='ah'], na.rm = TRUE) #1474.309
@@ -234,7 +234,7 @@ mostDistincVowels <- data[data$vowel == 'iy'|data$vowel == 'uw'|data$vowel == 'a
 lessDistinctVowels <- data[data$vowel == 'iy'|data$vowel == 'ih'|data$vowel == 'eh',]
 
 mostDistincVowels[mostDistincVowels==0]<-NA
-lessDistinctVowels[lessDistincVowels==0]<-NA
+lessDistinctVowels[lessDistinctVowels==0]<-NA
 
 aMeanF1 <- mean(mostDistincVowels$F1.at.steady.state[mostDistincVowels$vowel=='ah'], na.rm = TRUE) #892.568
 aMeanF2 <- mean(mostDistincVowels$F2.at.steady.state[mostDistincVowels$vowel=='ah'], na.rm = TRUE) #1474.309
