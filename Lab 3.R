@@ -99,70 +99,36 @@ accuracy = length(testset$TrueCat[testset$TrueCat == testset$Pred]) /length(test
 
 #Task 4
 #The accuracy is .00783
-#reset testset
-# testset2 <- rbind.data.frame(test.a, test.i, test.u)
-# testset <- testset2[sample(nrow(testset2), nrow(testset2)), ]
-# testset3 <- testset
-# rownames(testset) <- NULL
-# 
-# predictions.prob.variation <- list()
-# char.var <- c(1,2,3)
-# df = as.data.frame(permutations(n=length(char.var), r=3, v=char.var))
-# accuracy.list <- list()
-# for (i in 1:6){
-#     predictions.prob.variation[[i]] <- cbind(predictions.prob$z[,df[i,1]],predictions.prob$z[,df[i,2]],predictions.prob$z[,df[i,3]])
-# }
-# 
-# for (i in 1:6){
-#   predictions.prob$z <- predictions.prob.variation[[i]]
-#   predictions.disc <- apply(predictions.prob$z, 1, function(x) which(x ==max(x)))
-#   testset = data.frame(cbind(testset, predictions.disc))
-# }
-# 
-# colnames(testset) = c("F1.steady", "F2.steady", "TrueCat", "Model1", "Model2", "Model3", "Model4", "Model5", "Model6" )
-# 
-# for (i in 1:6){
-#   accuracy.list[[i]] = length(testset$TrueCat[testset$TrueCat == testset[,3+i]]) /length(testset$TrueCat)
-#   print(accuracy)
-# }
 
-#poging 2
-testset <- rbind.data.frame(test.a, test.i, test.u)
-testset <- testset[sample(nrow(testset), nrow(testset)), ]
-predictions.disc <- apply(predictions.prob$z, 1, function(x) which(x ==max(x)))
-
-#add the predictions to the testset
-testset = data.frame(cbind(testset, predictions.disc))
-rownames(testset) <- NULL
-
-  for (j in 1:length(testset[,1])){
-    if (testset$predictions.disc[j]==3){
-      testset$Pred2[j] <- 2 
-      testset$Pred3[j] <- 3
-      testset$Pred4[j] <- 1
-      testset$Pred5[j] <- 2 
-      testset$Pred6[j] <- 1 
-    }else if (testset$predictions.disc[j]==2){
-      testset$Pred2[j] <- 3
-      testset$Pred3[j] <- 1 
-      testset$Pred4[j] <- 3 
-      testset$Pred5[j] <- 1 
-      testset$Pred6[j] <- 2 
-    }else if (testset$predictions.disc[j]==1){
-      testset$Pred2[j] <- 1
-      testset$Pred3[j] <- 2 
-      testset$Pred4[j] <- 2 
-      testset$Pred5[j] <- 3 
-      testset$Pred6[j] <- 3 
-    }
+for (j in 1:length(testset[,1])){
+  if (testset$Pred[j]==3){
+    testset$Pred2[j] <- 2 
+    testset$Pred3[j] <- 3
+    testset$Pred4[j] <- 1
+    testset$Pred5[j] <- 2 
+    testset$Pred6[j] <- 1 
+  }else if (testset$Pred[j]==2){
+    testset$Pred2[j] <- 3
+    testset$Pred3[j] <- 1 
+    testset$Pred4[j] <- 3 
+    testset$Pred5[j] <- 1 
+    testset$Pred6[j] <- 2 
+  }else if (testset$Pred[j]==1){
+    testset$Pred2[j] <- 1
+    testset$Pred3[j] <- 2 
+    testset$Pred4[j] <- 2 
+    testset$Pred5[j] <- 3 
+    testset$Pred6[j] <- 3 
   }
-
-
+}
 colnames(testset) = c("F1.steady", "F2.steady", "TrueCat", "Pred1","Pred2", "Pred3","Pred4","Pred5","Pred6")
 
 #calculate proportion of correct responses
-accuracy = length(testset$TrueCat[testset$TrueCat == testset$Pred6]) /length(testset$TrueCat)
-print(accuracy)
+for (i in 1:6){
+  accuracy = length(testset$TrueCat[testset$TrueCat == testset[,3+i]]) /length(testset$TrueCat)
+  print(accuracy)
+}
+#model 4 is the correst one (2,3,1)
 
 
 
