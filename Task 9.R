@@ -1,78 +1,76 @@
-setwd('C:/Users/Myrna/Documents/Universiteit Utrecht/Cognitive modeling/Lab 3')
+setwd('C:/Users/Vladimir/Documents/University/Cognitive Modeling/Lab 3')
 
 source('Task 1 and 2.R')
-
-
 
 
 #Task 8
 
 #Decide the genders
-mostDistincVowels <- data
-lessDistinctVowels <- data
+vowels <- data
+#vowels <- data
 
-mostDistincVowels[mostDistincVowels==0]<-NA
-lessDistinctVowels[lessDistinctVowels==0]<-NA
+vowels[vowels==0]<-NA
+#vowels[vowels==0]<-NA
 
-mostDistincVowels<- mostDistincVowels[complete.cases(mostDistincVowels), ]
-lessDistinctVowels<- lessDistinctVowels[complete.cases(lessDistinctVowels), ]
+vowels<- vowels[complete.cases(vowels), ]
+#vowels<- vowels[complete.cases(vowels), ]
 
-ahMeanF1 <- mean(mostDistincVowels$F1.at.steady.state[mostDistincVowels$vowel=='ah'], na.rm = TRUE) #892.568
-ahMeanF2 <- mean(mostDistincVowels$F2.at.steady.state[mostDistincVowels$vowel=='ah'], na.rm = TRUE) #1474.309
-ahMeanF3 <- mean(mostDistincVowels$F3.at.steady.state[mostDistincVowels$vowel=='ah'], na.rm = TRUE)
-eiMeanF1 <- mean(mostDistincVowels$F1.at.steady.state[mostDistincVowels$vowel=='ei'], na.rm = TRUE) #412
-eiMeanF2 <- mean(mostDistincVowels$F2.at.steady.state[mostDistincVowels$vowel=='ei'], na.rm = TRUE) #2723.554
-eiMeanF3 <- mean(mostDistincVowels$F3.at.steady.state[mostDistincVowels$vowel=='ei'], na.rm = TRUE)
-uwMeanF1 <- mean(mostDistincVowels$F1.at.steady.state[mostDistincVowels$vowel=='uw'], na.rm = TRUE) #444.691
-uwMeanF2 <- mean(mostDistincVowels$F2.at.steady.state[mostDistincVowels$vowel=='uw'], na.rm = TRUE) #1157.504
-uwMeanF3 <- mean(mostDistincVowels$F3.at.steady.state[mostDistincVowels$vowel=='uw'], na.rm = TRUE)
+ahMeanF1 <- mean(vowels$F1.at.steady.state[vowels$vowel=='ah'], na.rm = TRUE) #892.568
+ahMeanF2 <- mean(vowels$F2.at.steady.state[vowels$vowel=='ah'], na.rm = TRUE) #1474.309
+ahMeanF3 <- mean(vowels$F3.at.steady.state[vowels$vowel=='ah'], na.rm = TRUE)
+eiMeanF1 <- mean(vowels$F1.at.steady.state[vowels$vowel=='ei'], na.rm = TRUE) #412
+eiMeanF2 <- mean(vowels$F2.at.steady.state[vowels$vowel=='ei'], na.rm = TRUE) #2723.554
+eiMeanF3 <- mean(vowels$F3.at.steady.state[vowels$vowel=='ei'], na.rm = TRUE)
+uwMeanF1 <- mean(vowels$F1.at.steady.state[vowels$vowel=='uw'], na.rm = TRUE) #444.691
+uwMeanF2 <- mean(vowels$F2.at.steady.state[vowels$vowel=='uw'], na.rm = TRUE) #1157.504
+uwMeanF3 <- mean(vowels$F3.at.steady.state[vowels$vowel=='uw'], na.rm = TRUE)
 
-ehMeanF1 <- mean(lessDistinctVowels$F1.at.steady.state[lessDistinctVowels$vowel=='eh'], na.rm = TRUE) #892.568
-ehMeanF2 <- mean(lessDistinctVowels$F2.at.steady.state[lessDistinctVowels$vowel=='eh'], na.rm = TRUE) #1474.309
-ehMeanF3 <- mean(lessDistinctVowels$F3.at.steady.state[lessDistinctVowels$vowel=='eh'], na.rm = TRUE)
-iyMeanF1 <- mean(lessDistinctVowels$F1.at.steady.state[lessDistinctVowels$vowel=='iy'], na.rm = TRUE) #412
-iyMeanF2 <- mean(lessDistinctVowels$F2.at.steady.state[lessDistinctVowels$vowel=='iy'], na.rm = TRUE) #2723.554
-iyMeanF3 <- mean(lessDistinctVowels$F3.at.steady.state[lessDistinctVowels$vowel=='iy'], na.rm = TRUE)
-ihMeanF1 <- mean(lessDistinctVowels$F1.at.steady.state[lessDistinctVowels$vowel=='ih'], na.rm = TRUE) #444.691
-ihMeanF2 <- mean(lessDistinctVowels$F2.at.steady.state[lessDistinctVowels$vowel=='ih'], na.rm = TRUE) #1157.504
-ihMeanF3 <- mean(lessDistinctVowels$F3.at.steady.state[lessDistinctVowels$vowel=='ih'], na.rm = TRUE)
+ehMeanF1 <- mean(vowels$F1.at.steady.state[vowels$vowel=='eh'], na.rm = TRUE) #892.568
+ehMeanF2 <- mean(vowels$F2.at.steady.state[vowels$vowel=='eh'], na.rm = TRUE) #1474.309
+ehMeanF3 <- mean(vowels$F3.at.steady.state[vowels$vowel=='eh'], na.rm = TRUE)
+iyMeanF1 <- mean(vowels$F1.at.steady.state[vowels$vowel=='iy'], na.rm = TRUE) #412
+iyMeanF2 <- mean(vowels$F2.at.steady.state[vowels$vowel=='iy'], na.rm = TRUE) #2723.554
+iyMeanF3 <- mean(vowels$F3.at.steady.state[vowels$vowel=='iy'], na.rm = TRUE)
+ihMeanF1 <- mean(vowels$F1.at.steady.state[vowels$vowel=='ih'], na.rm = TRUE) #444.691
+ihMeanF2 <- mean(vowels$F2.at.steady.state[vowels$vowel=='ih'], na.rm = TRUE) #1157.504
+ihMeanF3 <- mean(vowels$F3.at.steady.state[vowels$vowel=='ih'], na.rm = TRUE)
 
-aeMeanF1 <- mean(mostDistincVowels$F1.at.steady.state[mostDistincVowels$vowel=='ae'], na.rm = TRUE) #892.568
-aeMeanF2 <- mean(mostDistincVowels$F2.at.steady.state[mostDistincVowels$vowel=='ae'], na.rm = TRUE) #1474.309
-aeMeanF3 <- mean(mostDistincVowels$F3.at.steady.state[mostDistincVowels$vowel=='ae'], na.rm = TRUE)
-erMeanF1 <- mean(mostDistincVowels$F1.at.steady.state[mostDistincVowels$vowel=='er'], na.rm = TRUE) #412
-erMeanF2 <- mean(mostDistincVowels$F2.at.steady.state[mostDistincVowels$vowel=='er'], na.rm = TRUE) #2723.554
-erMeanF3 <- mean(mostDistincVowels$F3.at.steady.state[mostDistincVowels$vowel=='er'], na.rm = TRUE)
-uhMeanF1 <- mean(mostDistincVowels$F1.at.steady.state[mostDistincVowels$vowel=='uh'], na.rm = TRUE) #444.691
-uhMeanF2 <- mean(mostDistincVowels$F2.at.steady.state[mostDistincVowels$vowel=='uh'], na.rm = TRUE) #1157.504
-uhMeanF3 <- mean(mostDistincVowels$F3.at.steady.state[mostDistincVowels$vowel=='uh'], na.rm = TRUE)
+aeMeanF1 <- mean(vowels$F1.at.steady.state[vowels$vowel=='ae'], na.rm = TRUE) #892.568
+aeMeanF2 <- mean(vowels$F2.at.steady.state[vowels$vowel=='ae'], na.rm = TRUE) #1474.309
+aeMeanF3 <- mean(vowels$F3.at.steady.state[vowels$vowel=='ae'], na.rm = TRUE)
+erMeanF1 <- mean(vowels$F1.at.steady.state[vowels$vowel=='er'], na.rm = TRUE) #412
+erMeanF2 <- mean(vowels$F2.at.steady.state[vowels$vowel=='er'], na.rm = TRUE) #2723.554
+erMeanF3 <- mean(vowels$F3.at.steady.state[vowels$vowel=='er'], na.rm = TRUE)
+uhMeanF1 <- mean(vowels$F1.at.steady.state[vowels$vowel=='uh'], na.rm = TRUE) #444.691
+uhMeanF2 <- mean(vowels$F2.at.steady.state[vowels$vowel=='uh'], na.rm = TRUE) #1157.504
+uhMeanF3 <- mean(vowels$F3.at.steady.state[vowels$vowel=='uh'], na.rm = TRUE)
 
-awMeanF1 <- mean(mostDistincVowels$F1.at.steady.state[mostDistincVowels$vowel=='aw'], na.rm = TRUE) #892.568
-awMeanF2 <- mean(mostDistincVowels$F2.at.steady.state[mostDistincVowels$vowel=='aw'], na.rm = TRUE) #1474.309
-awMeanF3 <- mean(mostDistincVowels$F3.at.steady.state[mostDistincVowels$vowel=='aw'], na.rm = TRUE)
-oaMeanF1 <- mean(mostDistincVowels$F1.at.steady.state[mostDistincVowels$vowel=='oa'], na.rm = TRUE) #412
-oaMeanF2 <- mean(mostDistincVowels$F2.at.steady.state[mostDistincVowels$vowel=='oa'], na.rm = TRUE) #2723.554
-oaMeanF3 <- mean(mostDistincVowels$F3.at.steady.state[mostDistincVowels$vowel=='oa'], na.rm = TRUE)
-ooMeanF1 <- mean(mostDistincVowels$F1.at.steady.state[mostDistincVowels$vowel=='oo'], na.rm = TRUE) #444.691
-ooMeanF2 <- mean(mostDistincVowels$F2.at.steady.state[mostDistincVowels$vowel=='oo'], na.rm = TRUE) #1157.504
-ooMeanF3 <- mean(mostDistincVowels$F3.at.steady.state[mostDistincVowels$vowel=='oo'], na.rm = TRUE)
+awMeanF1 <- mean(vowels$F1.at.steady.state[vowels$vowel=='aw'], na.rm = TRUE) #892.568
+awMeanF2 <- mean(vowels$F2.at.steady.state[vowels$vowel=='aw'], na.rm = TRUE) #1474.309
+awMeanF3 <- mean(vowels$F3.at.steady.state[vowels$vowel=='aw'], na.rm = TRUE)
+oaMeanF1 <- mean(vowels$F1.at.steady.state[vowels$vowel=='oa'], na.rm = TRUE) #412
+oaMeanF2 <- mean(vowels$F2.at.steady.state[vowels$vowel=='oa'], na.rm = TRUE) #2723.554
+oaMeanF3 <- mean(vowels$F3.at.steady.state[vowels$vowel=='oa'], na.rm = TRUE)
+ooMeanF1 <- mean(vowels$F1.at.steady.state[vowels$vowel=='oo'], na.rm = TRUE) #444.691
+ooMeanF2 <- mean(vowels$F2.at.steady.state[vowels$vowel=='oo'], na.rm = TRUE) #1157.504
+ooMeanF3 <- mean(vowels$F3.at.steady.state[vowels$vowel=='oo'], na.rm = TRUE)
 
 #covariance between F1 and F2
-ahCovF1F2F3 <- cov(cbind(mostDistincVowels$F1.at.steady.state[mostDistincVowels$vowel=='ah'],mostDistincVowels$F2.at.steady.state[mostDistincVowels$vowel=='ah'], mostDistincVowels$F3.at.steady.state[mostDistincVowels$vowel=='ah']), use = "na.or.complete") 
-iyCovF1F2F3 <- cov(cbind(mostDistincVowels$F1.at.steady.state[mostDistincVowels$vowel=='iy'],mostDistincVowels$F2.at.steady.state[mostDistincVowels$vowel=='iy'],mostDistincVowels$F3.at.steady.state[mostDistincVowels$vowel=='iy']), use = "na.or.complete")
-uwCovF1F2F3 <- cov(cbind(mostDistincVowels$F1.at.steady.state[mostDistincVowels$vowel=='uw'],mostDistincVowels$F2.at.steady.state[mostDistincVowels$vowel=='uw'], mostDistincVowels$F3.at.steady.state[mostDistincVowels$vowel=='uw']), use = "na.or.complete")
+ahCovF1F2F3 <- cov(cbind(vowels$F1.at.steady.state[vowels$vowel=='ah'],vowels$F2.at.steady.state[vowels$vowel=='ah'], vowels$F3.at.steady.state[vowels$vowel=='ah']), use = "na.or.complete") 
+iyCovF1F2F3 <- cov(cbind(vowels$F1.at.steady.state[vowels$vowel=='iy'],vowels$F2.at.steady.state[vowels$vowel=='iy'],vowels$F3.at.steady.state[vowels$vowel=='iy']), use = "na.or.complete")
+uwCovF1F2F3 <- cov(cbind(vowels$F1.at.steady.state[vowels$vowel=='uw'],vowels$F2.at.steady.state[vowels$vowel=='uw'], vowels$F3.at.steady.state[vowels$vowel=='uw']), use = "na.or.complete")
 
-ehCovF1F2F3 <- cov(cbind(lessDistinctVowels$F1.at.steady.state[lessDistinctVowels$vowel=='eh'],lessDistinctVowels$F2.at.steady.state[lessDistinctVowels$vowel=='eh'], lessDistinctVowels$F3.at.steady.state[lessDistinctVowels$vowel=='eh']), use = "na.or.complete") 
-eiCovF1F2F3 <- cov(cbind(lessDistinctVowels$F1.at.steady.state[lessDistinctVowels$vowel=='ei'],lessDistinctVowels$F2.at.steady.state[lessDistinctVowels$vowel=='ei'], lessDistinctVowels$F3.at.steady.state[lessDistinctVowels$vowel=='ei']), use = "na.or.complete")
-ihCovF1F2F3 <- cov(cbind(lessDistinctVowels$F1.at.steady.state[lessDistinctVowels$vowel=='ih'],lessDistinctVowels$F2.at.steady.state[lessDistinctVowels$vowel=='ih'], lessDistinctVowels$F3.at.steady.state[lessDistinctVowels$vowel=='ih']), use = "na.or.complete")
+ehCovF1F2F3 <- cov(cbind(vowels$F1.at.steady.state[vowels$vowel=='eh'],vowels$F2.at.steady.state[vowels$vowel=='eh'], vowels$F3.at.steady.state[vowels$vowel=='eh']), use = "na.or.complete") 
+eiCovF1F2F3 <- cov(cbind(vowels$F1.at.steady.state[vowels$vowel=='ei'],vowels$F2.at.steady.state[vowels$vowel=='ei'], vowels$F3.at.steady.state[vowels$vowel=='ei']), use = "na.or.complete")
+ihCovF1F2F3 <- cov(cbind(vowels$F1.at.steady.state[vowels$vowel=='ih'],vowels$F2.at.steady.state[vowels$vowel=='ih'], vowels$F3.at.steady.state[vowels$vowel=='ih']), use = "na.or.complete")
 
-aeCovF1F2F3 <- cov(cbind(mostDistincVowels$F1.at.steady.state[mostDistincVowels$vowel=='ae'],mostDistincVowels$F2.at.steady.state[mostDistincVowels$vowel=='ae'], mostDistincVowels$F3.at.steady.state[mostDistincVowels$vowel=='ae']), use = "na.or.complete") 
-erCovF1F2F3 <- cov(cbind(mostDistincVowels$F1.at.steady.state[mostDistincVowels$vowel=='er'],mostDistincVowels$F2.at.steady.state[mostDistincVowels$vowel=='er'],mostDistincVowels$F3.at.steady.state[mostDistincVowels$vowel=='er']), use = "na.or.complete")
-uhCovF1F2F3 <- cov(cbind(mostDistincVowels$F1.at.steady.state[mostDistincVowels$vowel=='uh'],mostDistincVowels$F2.at.steady.state[mostDistincVowels$vowel=='uh'], mostDistincVowels$F3.at.steady.state[mostDistincVowels$vowel=='uh']), use = "na.or.complete")
+aeCovF1F2F3 <- cov(cbind(vowels$F1.at.steady.state[vowels$vowel=='ae'],vowels$F2.at.steady.state[vowels$vowel=='ae'], vowels$F3.at.steady.state[vowels$vowel=='ae']), use = "na.or.complete") 
+erCovF1F2F3 <- cov(cbind(vowels$F1.at.steady.state[vowels$vowel=='er'],vowels$F2.at.steady.state[vowels$vowel=='er'],vowels$F3.at.steady.state[vowels$vowel=='er']), use = "na.or.complete")
+uhCovF1F2F3 <- cov(cbind(vowels$F1.at.steady.state[vowels$vowel=='uh'],vowels$F2.at.steady.state[vowels$vowel=='uh'], vowels$F3.at.steady.state[vowels$vowel=='uh']), use = "na.or.complete")
 
-awCovF1F2F3 <- cov(cbind(mostDistincVowels$F1.at.steady.state[mostDistincVowels$vowel=='aw'],mostDistincVowels$F2.at.steady.state[mostDistincVowels$vowel=='aw'], mostDistincVowels$F3.at.steady.state[mostDistincVowels$vowel=='aw']), use = "na.or.complete") 
-oaCovF1F2F3 <- cov(cbind(mostDistincVowels$F1.at.steady.state[mostDistincVowels$vowel=='oa'],mostDistincVowels$F2.at.steady.state[mostDistincVowels$vowel=='oa'],mostDistincVowels$F3.at.steady.state[mostDistincVowels$vowel=='oa']), use = "na.or.complete")
-ooCovF1F2F3 <- cov(cbind(mostDistincVowels$F1.at.steady.state[mostDistincVowels$vowel=='oo'],mostDistincVowels$F2.at.steady.state[mostDistincVowels$vowel=='oo'], mostDistincVowels$F3.at.steady.state[mostDistincVowels$vowel=='oo']), use = "na.or.complete")
+awCovF1F2F3 <- cov(cbind(vowels$F1.at.steady.state[vowels$vowel=='aw'],vowels$F2.at.steady.state[vowels$vowel=='aw'], vowels$F3.at.steady.state[vowels$vowel=='aw']), use = "na.or.complete") 
+oaCovF1F2F3 <- cov(cbind(vowels$F1.at.steady.state[vowels$vowel=='oa'],vowels$F2.at.steady.state[vowels$vowel=='oa'],vowels$F3.at.steady.state[vowels$vowel=='oa']), use = "na.or.complete")
+ooCovF1F2F3 <- cov(cbind(vowels$F1.at.steady.state[vowels$vowel=='oo'],vowels$F2.at.steady.state[vowels$vowel=='oo'], vowels$F3.at.steady.state[vowels$vowel=='oo']), use = "na.or.complete")
 
 
 
@@ -144,73 +142,58 @@ row.names(testset1) <- NULL
 #      ylim=rev(range(300:1300)), col="1", xlab="F2", ylab="F1", pch=1,
 #      main="The vowel space", cex.lab=1.3, cex.axis=1.3, cex.sub=1.3)
 
-model <- Mclust((trainingset1), modelName="VVV", G=12,prior=priorControl())
+model <- Mclust((trainingset1), modelName="VVV", G=12, prior=priorControl())
 
-testset1 <- testset1[sample(nrow(testset1), nrow(testset1)), ]
-row.names(testset1) <- NULL
+#testset1 <- testset1[sample(nrow(testset1), nrow(testset1)), ]
+#row.names(testset1) <- NULL
 oldaccuracy <- 0
 count <- 1
 for (i in 1:1){
   
-#INTERMEZZO 
-#fit a model with 3 clusters
-#'vvv' = ellipsoidal, varying volume, shape, and orientation
-
-#check the parameters
-#model$parameters
+  #INTERMEZZO 
+  #fit a model with 3 clusters
+  #'vvv' = ellipsoidal, varying volume, shape, and orientation
+  
+  #check the parameters
+  #model$parameters
   # model <- Mclust((trainingset1), modelName="VVV", G=12,prior=priorControl())
   
-#predict the categories of the test-set with the parameters
-#this gives a probabilistic category assignment
-predictions.prob <- estep("VVV", data=testset1[,1:3],parameters=model$parameters)
-
-#Maximum likelihood criterium to pick a discrete prediction
-#This results in a vector with the category predictions
-predictions.disc <- apply(predictions.prob$z, 1, function(x) which(x ==max(x)))
-
-#add the predictions to the testset1
-testset2 = data.frame(cbind(testset1, predictions.disc))
-colnames(testset2) = c("F1.steady", "F2.steady","F3.steady", "TrueCat", "Pred")
-
-#calculate proportion of correct responses
-accuracy = length(testset2$TrueCat[testset2$TrueCat == testset2$Pred]) /length(testset2$TrueCat)
-for (l in 1:10){
-count <- 0
-for (k in 1:12){
+  #predict the categories of the test-set with the parameters
+  #this gives a probabilistic category assignment
+  predictions.prob <- estep("VVV", data=testset1[,1:3],parameters=model$parameters)
   
-  MostCommon <- as.numeric(names(which.max(table(testset2$Pred[testset2$TrueCat==k]))))
-  print(MostCommon)
-  if (MostCommon != k){
-    count <- count + 1
-    testset2$Pred<-replace(testset2$Pred, testset2$Pred == k, 24)
-    testset2$Pred<-replace(testset2$Pred,testset2$Pred == MostCommon,k)
-    testset2$Pred<-replace(testset2$Pred,testset2$Pred == 24,MostCommon)
-    print(k)
-    MostCommon <- as.numeric(names(which.max(table(testset2$Pred[testset2$TrueCat==k]))))
-    print(MostCommon)
-  }
+  #Maximum likelihood criterium to pick a discrete prediction
+  #This results in a vector with the category predictions
+  predictions.disc <- apply(predictions.prob$z, 1, function(x) which(x ==max(x)))
   
+  #add the predictions to the testset1
+  testset2 = data.frame(cbind(testset1, predictions.disc))
+  colnames(testset2) = c("F1.steady", "F2.steady","F3.steady", "TrueCat", "Pred")
+  
+  #calculate proportion of correct responses
+  accuracy = length(testset2$TrueCat[testset2$TrueCat == testset2$Pred]) /length(testset2$TrueCat)
+  count <- 99
+  #while (count > 0){
+    #count <- 0
+    for (k in 1:12){
+      MostCommon <- as.numeric(names(which.max(table(testset2$TrueCat[testset2$Pred==k]))))
+      print(paste('Most common label for prediction ', k, ' is ', MostCommon))
+      
+        print(paste('Changing ', k, ' to ', MostCommon+12))
+        print(table(testset2$TrueCat[testset2$Pred==k]))
+        count <- count + 1
+        testset2$Pred<-replace(testset2$Pred, testset2$Pred == k, 25)
+        #testset2$Pred<-replace(testset2$Pred,testset2$Pred == MostCommon+12,k)
+        testset2$Pred<-replace(testset2$Pred,testset2$Pred == 25,MostCommon+12)
+        #print(paste('k is now ', k, '. MostCommon is now ', MostCommon, '.'))
+        #MostCommon <- as.numeric(names(which.max(table(testset2$Pred[testset2$TrueCat==k]))))
+        #print(paste('k is now ', k, '. MostCommon is now ', MostCommon, '.'))
+    }
+  testset2$Pred <- testset2$Pred-12
+  
+  accuracy = length(testset2$TrueCat[testset2$TrueCat == testset2$Pred]) /length(testset2$TrueCat)
+  print(accuracy)
 }
-as.numeric(names(which.max(table(testset2$Pred[testset2$TrueCat==1]))))
-print('count')
-print(count)
-
-
-print(accuracy)
-
-# char.var <- c(1,2,3,4,5,6,7,8,9,10,11,12)
-# df = as.data.frame(permutations(n=length(char.var), r=12, v=char.var))
-# if (accuracy > oldaccuracy){
-#   print(count)
-#   finaltestset1 <- testset2
-#   oldaccuracy <- accuracy
-#   oldaccuracy1 <- accuracy
-#   print(accuracy)
-# }
-#   count = count + 1
-}
-}
-
 
 
 
